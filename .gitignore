@@ -1,0 +1,10 @@
+**/__pycache__/*
+moveit2_ws/*
+trial*/
+**/install
+**/build
+**/log
+**/.cache/
+**.data
+**.data.old
+**/target/

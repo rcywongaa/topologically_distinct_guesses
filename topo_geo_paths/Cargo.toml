@@ -1,0 +1,40 @@
+[package]
+name = "topo_geo_paths"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ahash = "0.8.7"
+approx = "0.5.1"
+bimap = "0.6.3"
+colorgrad = "0.6.2"
+constcat = "0.5.0"
+env_logger = "0.11.1"
+glam = "0.25.0"
+hexasphere = "10.0.0"
+itertools = "0.12.1"
+keyed_priority_queue = "0.4.2"
+lazy_static = "1.4.0"
+log = "0.4.20"
+nalgebra = "0.32.3"
+ndarray = "0.15.6"
+ndarray-linalg = "0.16.0"
+ndarray-rand = "0.14.0"
+nshare = { version = "0.9.0", features = ["ndarray", "nalgebra"] }
+num-traits = "0.2.17"
+once_cell = "1.19.0"
+ordered-float = "4.2.0"
+petgraph = { version = "0.6.4", features = ["graphmap"] }
+pyo3 = { version = "0.21.2", features = ["auto-initialize"] }
+rand = "0.8.5"
+rayon = "1.10.0"
+ringbuffer = "0.15.0"
+rustc-hash = "1.1.0"
+sorted-vec = "0.8.3"
+three-d = { version = "0.16.3", features = ["winit", "egui", "egui-gui"] }
+winit = "*"
+
+[profile.release]
+debug = true

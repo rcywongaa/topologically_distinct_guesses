@@ -1,0 +1,8 @@
+# Default initial positions for mobile_manipulator's ros2_control fake system
+
+initial_positions:
+  base_x: 0
+  base_y: 0
+  elbow_flex: 1.0
+  shoulder_lift: 1.0
+  shoulder_pan: 0

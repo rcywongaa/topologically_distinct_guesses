@@ -1,0 +1,212 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in library 'topo_geo_paths'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--lib",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "topo_geo_paths",
+          "kind": "lib"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'topo_geo_paths'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=topo_geo_paths",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "topo_geo_paths",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'topo_geo_paths'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--bin=topo_geo_paths",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "topo_geo_paths",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'grid_2d'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=grid_2d",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "grid_2d",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in example 'grid_2d'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--example=grid_2d",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "grid_2d",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'swept_sphere'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=swept_sphere",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "swept_sphere",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in example 'swept_sphere'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--example=swept_sphere",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "swept_sphere",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'two_link_arm'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=two_link_arm",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "two_link_arm",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in example 'two_link_arm'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--example=two_link_arm",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "two_link_arm",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug example 'hexasphere'",
+      "cargo": {
+        "args": [
+          "build",
+          "--example=hexasphere",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "hexasphere",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in example 'hexasphere'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--example=hexasphere",
+          "--package=topo_geo_paths"
+        ],
+        "filter": {
+          "name": "hexasphere",
+          "kind": "example"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

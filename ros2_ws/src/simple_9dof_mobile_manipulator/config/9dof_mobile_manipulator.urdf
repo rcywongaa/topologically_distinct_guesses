@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<robot name="mobile_manipulator" xmlns="http://www.ros.org">
+<link name="world_base"/>
+<link name="base">
+  <visual>
+    <geometry>
+      <sphere radius="0.02"/>
+    </geometry>
+    <material name="base_color">
+      <color rgba="1 0 0 1"/>
+    </material>
+  </visual>
+  <collision>
+    <geometry>
+      <sphere radius="0.02"/>
+    </geometry>
+  </collision>
+</link>
+<link name="base_x"/>
+<link name="base_y"/>
+<joint name="base_x" type="prismatic">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="1 0 0"/>
+  <parent link="world_base"/>
+  <child link="base_x"/>
+  <limit effort="10.0" velocity="10.0" lower="-2.0" upper="2.0"/>
+</joint>
+<joint name="base_y" type="prismatic">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="0 1 0"/>
+  <parent link="base_x"/>
+  <child link="base_y"/>
+  <limit effort="10.0" velocity="10.0" lower="-2.0" upper="2.0"/>
+</joint>
+<joint name="base_fixed" type="fixed">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <parent link="base_y"/>
+  <child link="base"/>
+</joint>
+
+<link name="elbow">
+  <visual>
+    <geometry>
+      <sphere radius="0.02"/>
+    </geometry>
+    <material name="elbow_color">
+      <color rgba="0 1 0 1"/>
+    </material>
+  </visual>
+  <collision>
+    <geometry>
+      <sphere radius="0.02"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="shoulder_lift"/>
+<link name="shoulder_pan"/>
+<joint name="shoulder_pan" type="revolute">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="0 0 1"/>
+  <parent link="base"/>
+  <child link="shoulder_pan"/>
+  <limit effort="10.0" velocity="10.0" lower="-6.28" upper="6.28"/>
+</joint>
+<joint name="shoulder_lift" type="revolute">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="0 -1 0"/>
+  <parent link="shoulder_pan"/>
+  <child link="shoulder_lift"/>
+  <limit effort="10.0" velocity="10.0" lower="-6.28" upper="6.28"/>
+</joint>
+<joint name="shoulder_roll" type="revolute">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="1 0 0"/>
+  <parent link="shoulder_lift"/>
+  <child link="upperarm"/>
+  <limit effort="10.0" velocity="10.0" lower="-6.28" upper="6.28"/>
+</joint>
+
+<link name="upperarm">
+  <visual>
+    <origin xyz="0.15 0 0" rpy="0 1.57 0"/>
+    <geometry>
+      <cylinder radius="0.01" length="0.3"/>
+    </geometry>
+    <material name="upperarm_color">
+      <color rgba="1 1 1 1"/>
+    </material>
+  </visual>
+  <collision>
+    <origin xyz="0.15 0 0" rpy="0 1.57 0"/>
+    <geometry>
+      <cylinder radius="0.01" length="0.3"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="elbow_fixed" type="fixed">
+  <origin xyz="0.3 0 0" rpy="0 0 0"/>
+  <axis xyz="0 0 0"/>
+  <parent link="upperarm"/>
+  <child link="elbow"/>
+</joint>
+
+<link name="forearm">
+  <visual>
+    <origin xyz="0.2 0 0" rpy="0 1.57 0"/>
+    <geometry>
+      <cylinder radius="0.01" length="0.4"/>
+    </geometry>
+    <material name="forearm_color">
+      <color rgba="1 1 1 1"/>
+    </material>
+  </visual>
+  <collision>
+    <origin xyz="0.2 0 0" rpy="0 1.57 0"/>
+    <geometry>
+      <cylinder radius="0.01" length="0.4"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="eef">
+  <visual>
+    <geometry>
+      <sphere radius="0.02"/>
+    </geometry>
+    <material name="eef_color">
+      <color rgba="0 0 1 1"/>
+    </material>
+  </visual>
+  <collision>
+    <geometry>
+      <sphere radius="0.02"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="elbow_flex" type="revolute">
+  <origin xyz="0 0 0" rpy="0 0 0"/>
+  <axis xyz="0 1 0"/>
+  <parent link="elbow"/>
+  <child link="forearm"/>
+  <limit effort="10.0" velocity="10.0" lower="-6.28" upper="6.28"/>
+</joint>
+<joint name="eef_fixed" type="fixed">
+  <origin xyz="0.4 0 0" rpy="0 0 0"/>
+  <parent link="forearm"/>
+  <child link="eef"/>
+</joint>
+
+</robot>

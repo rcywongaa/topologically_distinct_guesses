@@ -1,0 +1,20 @@
+Traj0
+Solve time: 197.79868340492249s
+Success?  True
+Cost: 5.196658975160998
+
+Traj 1
+Solve time: 58.50170183181763s
+Success?  True
+Cost: 6.893990933908718
+
+Traj 2
+Solve time: 394.7766363620758s
+Success?  True
+Cost: 6.8913038204372095
+
+No guess
+Solve time: 381.17619276046753s
+Success?  False
+Cost: 1590.8606011376346
+

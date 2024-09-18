@@ -1,0 +1,25 @@
+# This config file is used by ros2_control
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    mobile_manipulator_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+mobile_manipulator_controller:
+  ros__parameters:
+    joints:
+      - base_x
+      - base_y
+      - shoulder_pan
+      - shoulder_lift
+      - elbow_flex
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
