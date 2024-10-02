@@ -79,4 +79,4 @@ dt = 0.2
 
 # This gives some time for robot to orient itself before moving eef.
 # Avoids requiring extreme velocities at the start/end
-buffer = 15
+buffer = 10
