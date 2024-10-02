@@ -1,6 +1,6 @@
 import json
 import math
-from math import floor, isnan, atan2
+from math import floor, isnan, atan2, ceil
 import numpy as np
 import time
 from pydrake.solvers import (
@@ -37,16 +37,22 @@ from pydrake.math import RigidTransform, RollPitchYaw
 from config import planning_setting
 from dataformat import get_x
 import uuid
+import urllib
 
 WHEEL_BASE_WIDTH = 0.5  # m
-MAX_WHEEL_LINEAR_VELOCITY = 2.0  # m/s
+MAX_WHEEL_LINEAR_VELOCITY = 0.5  # m/s
 MAX_ELBOW_VELOCITY = 2 * MAX_WHEEL_LINEAR_VELOCITY  # should > MAX_WHEEL_LINEAR_VELOCITY
 MAX_ANGULAR_VELOCITY = 4 * MAX_WHEEL_LINEAR_VELOCITY / WHEEL_BASE_WIDTH
 
 LOOP_PLAYBACK = False
+CAPTURE_VIZ = False
+VIZ_FREQ = None
 # LOOP_PLAYBACK = True
-# VISUALIZE = False
-VISUALIZE = True
+CAPTURE_VIZ = True
+VIZ_FREQ = 10
+
+if CAPTURE_VIZ:
+    from take_meshcat_screenshot import take_screenshot
 
 
 def exponentially_smoothed_hinge_loss_function(x):
@@ -121,9 +127,6 @@ def dist_to_obstacle_expr(x, obstacle, sample_func, col):
         return InitializeAutoDiff(y_value, y_grad)
 
 
-c = 1.0
-
-
 def gamma_fn(x, exprs, x_indices):
     if x.dtype == float:
         ret = 0.0
@@ -131,7 +134,7 @@ def gamma_fn(x, exprs, x_indices):
         ret = AutoDiffXd(0.0)
     for expr, (start_index, end_index) in zip(exprs, x_indices):
         ret += exponentially_smoothed_hinge_loss_function(
-            10.0 * expr(x[start_index:end_index])
+            100 * expr(x[start_index:end_index])
         )
         # ret += quadratically_smoothed_hinge_loss_function(
         #     1.0 * expr(x[start_index:end_index])
@@ -243,11 +246,8 @@ def show_pose(meshcat, x_b, x_w, x_e, theta, is_persist=False):
     )
 
 
-import pdb
-
-
 def visualization_callback(meshcat, prog, x, x_b_var, x_w_var, theta_var):
-    if visualization_callback.count % 5 != 0:
+    if visualization_callback.count % VIZ_FREQ != 0:
         print(f"Num iterations: {visualization_callback.count}, skipping...")
     else:
         print(f"Num iterations: {visualization_callback.count}, visualizing...")
@@ -266,11 +266,18 @@ def visualization_callback(meshcat, prog, x, x_b_var, x_w_var, theta_var):
                 theta_val,
                 is_persist=True,
             )
-        pdb.set_trace()
+        if CAPTURE_VIZ:
+            meshcat_url = meshcat.web_url()
+            file_prefix = urllib.parse.urlparse(meshcat_url).port
+            take_screenshot(
+                meshcat_url, f"{file_prefix}-{visualization_callback.capture_index}.png"
+            )
+            visualization_callback.capture_index += 1
     visualization_callback.count += 1
 
 
 visualization_callback.count = 0
+visualization_callback.capture_index = 0
 
 
 def show_obstacles(meshcat, obstacles):
@@ -307,6 +314,7 @@ def optimize(
     theta_guess=None,
     v_guess=None,
     w_guess=None,
+    delta_x_w_guess=None,
 ):
     """Attempt to use drake's ComputeSignedDistanceToPoint (doesn't work with Expression)"""
     # scene_graph = SceneGraph()
@@ -448,6 +456,8 @@ def optimize(
         prog.SetInitialGuess(v, v_guess)
     if w_guess is not None:
         prog.SetInitialGuess(w, w_guess)
+    if delta_x_w_guess is not None:
+        prog.SetInitialGuess(delta_x_w, delta_x_w_guess)
 
     # for constraint in prog.GetAllConstraints():
     #     if not prog.CheckSatisfiedAtInitialGuess(constraint):
@@ -456,8 +466,11 @@ def optimize(
     options = SolverOptions()
     # options.SetOption(CommonSolverOption.kPrintToConsole, 1)
     options.SetOption(SnoptSolver.id(), "Major optimality tolerance", 5e-5)
+    # options.SetOption(SnoptSolver.id(), "Linesearch tolerance", 0.99)
+    # options.SetOption(SnoptSolver.id(), "Major step limit", 0.1)
+    options.SetOption(SnoptSolver.id(), "Major step limit", 0.5)
     prog.SetSolverOptions(options)
-    if VISUALIZE:
+    if VIZ_FREQ is not None:
         prog.AddVisualizationCallback(
             lambda x: visualization_callback(meshcat, prog, x, x_b, x_w, theta),
             prog.decision_variables(),
@@ -480,28 +493,56 @@ def optimize(
 
 
 def calc_a(x_w, x_b, x_e):
-    a = (x_w[0:2] - x_b) / (x_e[0:2] - x_b)
-    if isnan(a[0]) or isnan(a[1]):
-        return 0.0
-    assert abs(a[0] - a[1]) < 1e-3, f"a[0] - a[1] = {a[0]-a[1]}"
-    return a[0]
+    x_bw = x_w[0:2] - x_b
+    x_be = x_e[0:2] - x_b
+    a = np.linalg.norm(x_bw) / np.linalg.norm(x_be)
+    if np.linalg.norm(x_be * (-a) - x_bw) < np.linalg.norm(x_be * a - x_bw):
+        a = -a
+    # Sanity check
+    error = np.linalg.norm(x_be * a - x_bw)
+    if error > 0.01:
+        print(
+            f"WARNING: Large error ({error})"
+            f"x_w: {x_w}, x_b: {x_b}, x_e: {x_e}, a: {a}"
+        )
+    # assert np.linalg.norm(x_be * ret - x_bw) < 1e-3
+    return a
 
 
 def read_guess_from_file(filename):
     with open(filename) as f:
+        delta_x_w_guess = np.zeros((N - 1, 3))
         x_w_guess = np.zeros((N, 3))
         x_b_guess = np.zeros((N, 2))
+        x_e_guess = np.zeros((N, 3))
         a_guess = np.zeros((N, 1))
         theta_guess = np.zeros((N, 1))
         v_guess = np.zeros((N - 1, 1))
         w_guess = np.zeros((N - 1, 1))
         lines = f.readlines()
         num_lines = len(lines)
-        interval = N / num_lines
-        t = 0
+        buffer = planning_setting.buffer
+        interval = (N - 2 * buffer) / (num_lines - 1)
+        # for t in range(0, planning_setting.buffer):
+
+        x_b_guess[0] = planning_setting.initial_x_b[0:2]
+        x_w_guess[0] = planning_setting.initial_x_w
+        x_e_guess[0] = planning_setting.initial_x_e
+        """
+        Populate x_w_guess, x_b_guess, x_e_guess first
+        """
+        initial_pose = json.loads(lines[0])
+        (initial_x_w, initial_x_e, initial_x_b) = get_x(initial_pose)
+
+        x_w_guess[0:buffer] = initial_x_w
+        x_b_guess[0:buffer] = initial_x_b
+        x_e_guess[0:buffer] = initial_x_e
+
+        t = buffer
         # x_b_guess[0] = planning_setting.initial_x_b[0:2]
         for i in range(1, num_lines):
-            T = floor(interval * i)
+            T = buffer + floor(interval * i)
+            # print(f"{i}: Setting guesses from {t} to {T}")
             last_pose = json.loads(lines[i - 1])
             (last_x_w, last_x_e, last_x_b) = get_x(last_pose)
             pose = json.loads(lines[i])
@@ -519,23 +560,36 @@ def read_guess_from_file(filename):
                 T - t,
                 endpoint=False,
             )
-
-            last_a = calc_a(last_x_w, last_x_b, last_x_e)
-            a = calc_a(x_w, x_b, x_e)
-            a_guess[t:T, 0] = np.linspace(last_a, a, T - t, endpoint=False)
+            x_e_guess[t:T, :] = np.linspace(last_x_e, x_e, T - t)
             t = T
-        x_w_guess[T:, :] = x_w
-        # x_b_guess[T:, :] = planning_setting.final_x_b[0:2]
-        x_b_guess[T:, :] = x_b_guess[T - 1, :]
-        a_guess[T:, :] = calc_a(x_w, x_b, x_e)
+
+        final_pose = json.loads(lines[-1])
+        (final_x_w, final_x_e, final_x_b) = get_x(final_pose)
+
+        if buffer > 0:
+            x_w_guess[-buffer:, :] = final_x_w
+            # x_b_guess[T:, :] = planning_setting.final_x_b[0:2]
+            x_b_guess[-buffer:, :] = final_x_b
+            x_e_guess[-buffer:, :] = final_x_e
+
+        x_b_guess[-1] = planning_setting.final_x_b[0:2]
+        x_w_guess[-1] = planning_setting.final_x_w
+        x_e_guess[-1] = planning_setting.final_x_e
 
         """ We don't enforce initial and final theta anymore """
         # theta_guess[0] = planning_setting.initial_theta
         # theta_guess[-1] = planning_setting.final_theta
-        for t in range(0, T - 1):
+
+        """
+        Populate the rest of the guesses
+        """
+        for t in range(0, N - 1):
+            a = calc_a(x_w, x_b, x_e)
+            a_guess[t, 0] = calc_a(x_w_guess[t], x_b_guess[t], x_e_guess[t])
+
             d_xb = x_b_guess[t + 1] - x_b_guess[t]
             d_xb_norm = np.linalg.norm(d_xb)
-            if d_xb_norm < 1e-6:
+            if d_xb_norm < 1e-4:
                 theta_guess[t] = theta_guess[t - 1]
                 v_guess[t] = 0.0
             else:
@@ -544,13 +598,23 @@ def read_guess_from_file(filename):
                 Setting v_guess to 0.0 seems to do better
                 """
                 v_guess[t] = 0.0
+                # v_guess[t] = 1e-6
                 # v_guess[t] = d_xb_norm / dt
-        theta_guess[-1] = theta_guess[T - 2]
+        theta_guess[-1] = theta_guess[-2]
 
-        for t in range(0, T - 1):
+        for t in range(0, N - 1):
             w_guess[t] = (theta_guess[t + 1] - theta_guess[t]) / dt
+            delta_x_w_guess[t] = (x_w_guess[t + 1] - x_w_guess[t]) / dt
 
-        return x_w_guess, x_b_guess, a_guess, theta_guess, v_guess, w_guess
+        return (
+            x_w_guess,
+            x_b_guess,
+            a_guess,
+            theta_guess,
+            v_guess,
+            w_guess,
+            delta_x_w_guess,
+        )
 
 
 if __name__ == "__main__":
@@ -569,6 +633,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     meshcat = StartMeshcat()
+    meshcat.SetProperty("/Background", "visible", False)
+    meshcat.SetProperty("/Grid", "visible", False)
     meshcat.SetCameraPose(
         camera_in_world=[-1.5, -1.0, 2.5], target_in_world=[0.0, 0.0, 0.0]
     )
@@ -580,12 +646,19 @@ if __name__ == "__main__":
     theta_guess = None
     v_guess = None
     w_guess = None
+    delta_x_w_guess = None
 
     if args.filename:
         print(f"Using {args.filename} as guess")
-        x_w_guess, x_b_guess, a_guess, theta_guess, v_guess, w_guess = (
-            read_guess_from_file(args.filename)
-        )
+        (
+            x_w_guess,
+            x_b_guess,
+            a_guess,
+            theta_guess,
+            v_guess,
+            w_guess,
+            delta_x_w_guess,
+        ) = read_guess_from_file(args.filename)
 
     """ Show the guess"""
     if x_w_guess is not None:
@@ -617,6 +690,7 @@ if __name__ == "__main__":
         theta_guess=theta_guess,
         v_guess=v_guess,
         w_guess=w_guess,
+        delta_x_w_guess=delta_x_w_guess,
     )
 
     # planning_setting.disconnect_pybullet()
