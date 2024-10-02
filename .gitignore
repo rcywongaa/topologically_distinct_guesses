@@ -8,3 +8,5 @@ trial*/
 **.data
 **.data.old
 **/target/
+**.zip
+.git/
