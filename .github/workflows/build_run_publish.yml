@@ -16,17 +16,20 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Setup
+        uses: ./.github/actions/setup
+
       - name: Generate paths
         working-directory: ./topo_geo_paths
         run: cargo run -r
 
       # Save generated trajectories
-      - name: Upload trajectory0
-        working-directory: ./topo_geo_paths
+      - name: Upload trajectory0.txt
+        # working-directory: ./topo_geo_paths
         uses: actions/upload-artifact@v4
         with:
-          name: trajectory0
-          path: trajectory0.txt
+          name: trajectory0.txt
+          path: topo_geo_paths/trajectory0.txt
       # - name: Upload trajectory1
       #   working-directory: ./topo_geo_paths
       #   uses: actions/upload-artifact@v4
@@ -42,17 +45,18 @@ jobs:
 
   optimize-path0:
     runs-on: ubuntu-latest
-    container:
-      image: robotlocomotion/drake:jammy
     needs: generate-paths
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download trajectory0
+      - name: Setup
+        uses: ./actions/setup
+
+      - name: Download trajectory0.txt
         uses: actions/download-artifact@v4
         with:
-          name: trajectory0
+          name: trajectory0.txt
           path: topo_geo_paths
 
       - name: Optimize trajectory
@@ -61,40 +65,23 @@ jobs:
       - name: Upload trajectory0_opt
         uses: actions/upload-artifact@v4
         with:
-          name: trajectory0_opt
+          name: trajectory0_opt.txt
           path: trajectory0_opt.txt
 
   visualize-path0:
     runs-on: ubuntu-latest
-    container:
-      image: robotlocomotion/drake:jammy
     needs: optimize-path0
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ros-tooling/setup-ros@v0.7
-        with:
-          required-ros-distributions: humble
-          use-ros2-testing: "true"
-
-      # Use drake image and setup ROS instead of otherway round
-      # - name: Setup Drake
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install --no-install-recommends \
-      #       ca-certificates gnupg lsb-release wget
-      #     wget -qO- https://drake-apt.csail.mit.edu/drake.asc | gpg --dearmor - \
-      #       | sudo tee /etc/apt/trusted.gpg.d/drake.gpg >/dev/null
-      #     echo "deb [arch=amd64] https://drake-apt.csail.mit.edu/$(lsb_release -cs) $(lsb_release -cs) main" \
-      #       | sudo tee /etc/apt/sources.list.d/drake.list >/dev/null
-      #     sudo apt install -y drake-dev
-      #     export PYTHONPATH="/opt/drake/lib/python$(python3 -c 'import sys; print("{0}.{1}".format(*sys.version_info))')/site-packages${PYTHONPATH:+:${PYTHONPATH}}"
+      - name: Setup
+        uses: ./actions/setup
 
       - name: Download trajectory0_opt
         uses: actions/download-artifact@v4
         with:
-          name: trajectory0_opt
+          name: trajectory0_opt.txt
 
       - name: Visualize
         run: source ros2_ws/install/setup.zsh; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
@@ -107,15 +94,17 @@ jobs:
 
   upload_pages:
     needs: visualize-path0
-    deploy:
-      environment:
-        name: github-pages
-        url: ${{ steps.deployment.outputs.page_url }}
-      runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./actions/setup
 
       - name: Download trajectory0_opt.html
         uses: actions/download-artifact@v4
@@ -134,3 +123,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+

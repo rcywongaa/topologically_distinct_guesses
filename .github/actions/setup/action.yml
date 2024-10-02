@@ -1,0 +1,27 @@
+name: "Common Setup"
+description: "Common setup actions for installing ROS, Drake and other dependencies"
+runs:
+  using: "composite"
+  steps:
+    - uses: ros-tooling/setup-ros@v0.7
+
+    - name: Setup Drake
+      run: |
+        sudo apt-get update
+        sudo apt-get install --no-install-recommends \
+          ca-certificates gnupg lsb-release wget
+        wget -qO- https://drake-apt.csail.mit.edu/drake.asc | gpg --dearmor - \
+          | sudo tee /etc/apt/trusted.gpg.d/drake.gpg >/dev/null
+        echo "deb [arch=amd64] https://drake-apt.csail.mit.edu/$(lsb_release -cs) $(lsb_release -cs) main" \
+          | sudo tee /etc/apt/sources.list.d/drake.list >/dev/null
+        sudo apt update
+        sudo apt install -y drake-dev
+        echo "/opt/drake/bin" >> $GITHUB_PATH
+        echo "/opt/drake/lib/python$(python3 -c 'import sys; print("{0}.{1}".format(*sys.version_info))')/site-packages" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Install dependencies (python)
+      run: |
+        sudo apt install -y python3-numpy
+        pip install pybullet
+      shell: bash
