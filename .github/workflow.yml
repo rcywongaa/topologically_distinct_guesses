@@ -1,0 +1,136 @@
+name: Build, Run, Upload
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the $default-branch branch
+  push:
+    branches: [ $default-branch ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  generate-paths:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      - name: Generate paths
+        working-directory: ./topo_geo_paths
+        run: cargo run -r
+
+      # Save generated trajectories
+      - name: Upload trajectory0
+        working-directory: ./topo_geo_paths
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory0
+          path: trajectory0.txt
+      # - name: Upload trajectory1
+      #   working-directory: ./topo_geo_paths
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: trajectory1
+      #     path: trajectory1.txt
+      # - name: Upload trajectory2
+      #   working-directory: ./topo_geo_paths
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: trajectory2
+      #     path: trajectory2.txt
+
+  optimize-path0:
+    runs-on: ubuntu-latest
+    container:
+      image: robotlocomotion/drake:jammy
+    needs: generate-paths
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download trajectory0
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory0
+          path: topo_geo_paths
+
+      - name: Optimize trajectory
+        run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory0.txt --output trajectory0_opt.txt 2>/dev/null
+
+      - name: Upload trajectory0_opt
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory0_opt
+          path: trajectory0_opt.txt
+
+  visualize-path0:
+    runs-on: ubuntu-latest
+    container:
+      image: robotlocomotion/drake:jammy
+    needs: optimize-path0
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+          use-ros2-testing: "true"
+
+      # Use drake image and setup ROS instead of otherway round
+      # - name: Setup Drake
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install --no-install-recommends \
+      #       ca-certificates gnupg lsb-release wget
+      #     wget -qO- https://drake-apt.csail.mit.edu/drake.asc | gpg --dearmor - \
+      #       | sudo tee /etc/apt/trusted.gpg.d/drake.gpg >/dev/null
+      #     echo "deb [arch=amd64] https://drake-apt.csail.mit.edu/$(lsb_release -cs) $(lsb_release -cs) main" \
+      #       | sudo tee /etc/apt/sources.list.d/drake.list >/dev/null
+      #     sudo apt install -y drake-dev
+      #     export PYTHONPATH="/opt/drake/lib/python$(python3 -c 'import sys; print("{0}.{1}".format(*sys.version_info))')/site-packages${PYTHONPATH:+:${PYTHONPATH}}"
+
+      - name: Download trajectory0_opt
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory0_opt
+
+      - name: Visualize
+        run: source ros2_ws/install/setup.zsh; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
+
+      - name: Upload trajectory0_opt HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory0_opt.html
+          path: trajectory0_opt.html
+
+  upload_pages:
+    needs: visualize-path0
+    deploy:
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+      runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download trajectory0_opt.html
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory0_opt.html
+          path: pages
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
