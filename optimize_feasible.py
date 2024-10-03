@@ -48,8 +48,8 @@ LOOP_PLAYBACK = False
 CAPTURE_VIZ = False
 VIZ_FREQ = None
 # LOOP_PLAYBACK = True
-CAPTURE_VIZ = True
-VIZ_FREQ = 10
+# CAPTURE_VIZ = True
+# VIZ_FREQ = 10
 
 if CAPTURE_VIZ:
     from take_meshcat_screenshot import take_screenshot
