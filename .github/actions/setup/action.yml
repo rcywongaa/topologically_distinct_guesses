@@ -17,7 +17,7 @@ runs:
         sudo apt update
         sudo apt install -y drake-dev
         echo "/opt/drake/bin" >> $GITHUB_PATH
-        echo "/opt/drake/lib/python3.8/site-packages" >> $GITHUB_ENV
+        echo "PYTHONPATH=/opt/drake/lib/python$(python3 -c 'import sys; print("{0}.{1}".format(*sys.version_info))')/site-packages" >> $GITHUB_ENV
       shell: bash
 
     - name: Install dependencies (python)
