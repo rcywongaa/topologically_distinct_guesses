@@ -24,6 +24,6 @@ use topo_geo_paths::{
 fn main() {
   env_logger::init();
 
-  find_distinct_paths(get_planning_setting(), Some(Visualizer::new()));
-  // find_distinct_paths(get_planning_setting(), None);
+  // find_distinct_paths(get_planning_setting(), Some(Visualizer::new()));
+  find_distinct_paths(get_planning_setting(), None);
 }
