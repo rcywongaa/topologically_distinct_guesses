@@ -23,5 +23,5 @@ runs:
     - name: Install dependencies (python)
       run: |
         sudo apt install -y python3-numpy
-        pip install pybullet
+        pip install pybullet==3.0.8
       shell: bash
