@@ -3,8 +3,8 @@ name: Build, Run, Upload Combined
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push events but only for the $default-branch branch
-  push:
-    branches: [ 'master' ]
+  # push:
+  #   branches: [ 'master' ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -29,7 +29,19 @@ jobs:
           name: trajectory0.txt
           path: topo_geo_paths/trajectory0.txt
 
-      - name: Optimize trajectory
+      - name: Upload trajectory1
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory1
+          path: trajectory1.txt
+
+      - name: Upload trajectory2
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory2
+          path: trajectory2.txt
+
+      - name: Optimize trajectory0
         run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory0.txt --output trajectory0_opt.txt 2>/dev/null
 
       - name: Upload trajectory0_opt
@@ -38,6 +50,24 @@ jobs:
           name: trajectory0_opt.txt
           path: trajectory0_opt.txt
 
+      - name: Optimize trajectory1
+        run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory1.txt --output trajectory1_opt.txt 2>/dev/null
+
+      - name: Upload trajectory1_opt
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory1_opt.txt
+          path: trajectory1_opt.txt
+
+      - name: Optimize trajectory2
+        run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory2.txt --output trajectory2_opt.txt 2>/dev/null
+
+      - name: Upload trajectory2_opt
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory2_opt.txt
+          path: trajectory2_opt.txt
+
       # Skip warehouse-ros-mongo dependency: https://github.com/moveit/warehouse_ros_mongo/issues/75
       - name: Build ros2_ws
         run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
@@ -45,7 +75,7 @@ jobs:
       # - name: Build ros2_ws
       #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
 
-      - name: Visualize
+      - name: Visualize trajectory0
         run: source ros2_ws/install/setup.bash; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
 
       - name: Upload trajectory0_opt.html
@@ -53,6 +83,24 @@ jobs:
         with:
           name: trajectory0_opt.html
           path: trajectory0_opt.html
+
+      - name: Visualize trajectory1
+        run: source ros2_ws/install/setup.bash; python3 drake_viz.py --filename=trajectory1_opt.txt --html_output=trajectory1_opt.html
+
+      - name: Upload trajectory1_opt.html
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory1_opt.html
+          path: trajectory1_opt.html
+
+      - name: Visualize trajectory2
+        run: source ros2_ws/install/setup.bash; python3 drake_viz.py --filename=trajectory2_opt.txt --html_output=trajectory2_opt.html
+
+      - name: Upload trajectory2_opt.html
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory2_opt.html
+          path: trajectory2_opt.html
 
   upload_pages:
     needs: generate-paths
@@ -72,6 +120,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: trajectory0_opt.html
+          path: pages
+
+      - name: Download trajectory1_opt.html
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory1_opt.html
+          path: pages
+
+      - name: Download trajectory2_opt.html
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory2_opt.html
           path: pages
 
       - name: Setup Pages

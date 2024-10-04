@@ -1,0 +1,29 @@
+name: "Optimize Path"
+description: "Optimizes a path"
+inputs:
+  path_index:
+    description: Path index
+    required: True
+    default: '0'
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Download trajectory${{ inputs.path_index }}.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory${{ inputs.path_index }}.txt
+          path: topo_geo_paths
+
+      - name: Optimize trajectory
+        run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory${{ inputs.path_index }}.txt --output trajectory${{ inputs.path_index }}_opt.txt 2>/dev/null
+
+      - name: Upload optimized trajectory
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory${{ inputs.path_index }}_opt.txt
+          path: trajectory${{ inputs.path_index }}_opt.txt

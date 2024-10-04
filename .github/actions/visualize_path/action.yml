@@ -1,0 +1,35 @@
+name: "Visualize Path"
+description: "Visualizes a path"
+inputs:
+  path_index:
+    description: Path index
+    required: True
+    default: '0'
+runs:
+  using: "composite"
+  steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Download trajectory${{ inputs.path_index }}_opt.txt
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory${{ inputs.path_index }}_opt.txt
+
+      # Skip warehouse-ros-mongo dependency: https://github.com/moveit/warehouse_ros_mongo/issues/75
+      - name: Build ros2_ws
+        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
+
+      # - name: Build ros2_ws
+      #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
+
+      - name: Visualize
+        run: source ros2_ws/install/setup.bash; python3 drake_viz.py --filename=trajectory${{ inputs.path_index }}_opt.txt --html_output=trajectory${{ inputs.path_index }}_opt.html
+
+      - name: Upload trajectory${{ inputs.path_index }}_opt.html
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory${{ inputs.path_index }}_opt.html
+          path: trajectory${{ inputs.path_index }}_opt.html

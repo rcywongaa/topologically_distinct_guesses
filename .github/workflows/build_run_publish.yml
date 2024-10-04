@@ -25,82 +25,86 @@ jobs:
 
       # Save generated trajectories
       - name: Upload trajectory0.txt
-        # working-directory: ./topo_geo_paths
         uses: actions/upload-artifact@v4
         with:
           name: trajectory0.txt
           path: topo_geo_paths/trajectory0.txt
-      # - name: Upload trajectory1
-      #   working-directory: ./topo_geo_paths
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: trajectory1
-      #     path: trajectory1.txt
-      # - name: Upload trajectory2
-      #   working-directory: ./topo_geo_paths
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: trajectory2
-      #     path: trajectory2.txt
+
+      - name: Upload trajectory1
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory1
+          path: trajectory1.txt
+
+      - name: Upload trajectory2
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory2
+          path: trajectory2.txt
 
   optimize-path0:
     runs-on: ubuntu-latest
     needs: generate-paths
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Download trajectory0.txt
-        uses: actions/download-artifact@v4
+      - name: Optimize Path 0
+        uses: ./.github/actions/optimize_path
         with:
-          name: trajectory0.txt
-          path: topo_geo_paths
+          path_index: 0
 
-      - name: Optimize trajectory
-        run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory0.txt --output trajectory0_opt.txt 2>/dev/null
+  optimize-path1:
+    runs-on: ubuntu-latest
+    needs: generate-paths
 
-      - name: Upload trajectory0_opt
-        uses: actions/upload-artifact@v4
+    steps:
+      - name: Optimize Path 1
+        uses: ./.github/actions/optimize_path
         with:
-          name: trajectory0_opt.txt
-          path: trajectory0_opt.txt
+          path_index: 1
+
+  optimize-path2:
+    runs-on: ubuntu-latest
+    needs: generate-paths
+
+    steps:
+      - name: Optimize Path 2
+        uses: ./.github/actions/optimize_path
+        with:
+          path_index: 2
 
   visualize-path0:
     runs-on: ubuntu-latest
     needs: optimize-path0
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Download trajectory0_opt
-        uses: actions/download-artifact@v4
+      - name: Visualize Path 0
+        uses: ./.github/actions/visualize_path
         with:
-          name: trajectory0_opt.txt
+          path_index: 0
 
-      # Skip warehouse-ros-mongo dependency: https://github.com/moveit/warehouse_ros_mongo/issues/75
-      - name: Build ros2_ws
-        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
+  visualize-path1:
+    runs-on: ubuntu-latest
+    needs: optimize-path1
 
-      # - name: Build ros2_ws
-      #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
-
-      - name: Visualize
-        run: source ros2_ws/install/setup.bash; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
-
-      - name: Upload trajectory0_opt.html
-        uses: actions/upload-artifact@v4
+    steps:
+      - name: Visualize Path 1
+        uses: ./.github/actions/visualize_path
         with:
-          name: trajectory0_opt.html
-          path: trajectory0_opt.html
+          path_index: 1
+
+  visualize-path2:
+    runs-on: ubuntu-latest
+    needs: optimize-path2
+
+    steps:
+      - name: Visualize Path 2
+        uses: ./.github/actions/visualize_path
+        with:
+          path_index: 2
+
 
   upload_pages:
-    needs: visualize-path0
+    needs: [visualize-path0, visualize-path1, visualize-path2]
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
