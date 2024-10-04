@@ -83,10 +83,16 @@ jobs:
         with:
           name: trajectory0_opt.txt
 
+      - name: Build ros2_ws
+        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep install -r -y --from-paths . --ignore-src && colcon build
+
+      # - name: Build ros2_ws
+      #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
+
       - name: Visualize
         run: source ros2_ws/install/setup.zsh; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
 
-      - name: Upload trajectory0_opt HTML
+      - name: Upload trajectory0_opt.html
         uses: actions/upload-artifact@v4
         with:
           name: trajectory0_opt.html
