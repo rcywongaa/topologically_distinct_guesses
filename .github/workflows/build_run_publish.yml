@@ -84,7 +84,7 @@ jobs:
           name: trajectory0_opt.txt
 
       - name: Build ros2_ws
-        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep install -r -y --from-paths . --ignore-src && colcon build
+        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src && colcon build
 
       # - name: Build ros2_ws
       #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
@@ -108,9 +108,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup
-        uses: ./actions/setup
 
       - name: Download trajectory0_opt.html
         uses: actions/download-artifact@v4
