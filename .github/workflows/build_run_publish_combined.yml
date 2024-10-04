@@ -46,7 +46,7 @@ jobs:
       #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
 
       - name: Visualize
-        run: source ros2_ws/install/setup.zsh; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
+        run: source ros2_ws/install/setup.bash; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
 
       - name: Upload trajectory0_opt.html
         uses: actions/upload-artifact@v4
