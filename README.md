@@ -1,5 +1,7 @@
 # Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning
 
+Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths.
+
 Steps:
 1. Edit `config/planning_setting.py` to set up planning parameters
 1. `pushd config && python3 planning_setting.py; popd`
