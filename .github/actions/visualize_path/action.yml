@@ -8,8 +8,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - uses: actions/checkout@v4
-
       - name: Setup
         uses: ./.github/actions/setup
 
