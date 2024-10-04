@@ -1,4 +1,4 @@
-name: Build, Run, Upload
+name: Build, Run, Upload (Parallel)
 
 # Controls when the workflow will run
 on:

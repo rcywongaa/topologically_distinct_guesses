@@ -1,4 +1,4 @@
-name: Build, Run, Upload Combined
+name: Build, Run, Upload (Sequential)
 
 # Controls when the workflow will run
 on:

@@ -1,6 +1,6 @@
 # Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning
-![Build, Run, Upload](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish.yml/badge.svg)
-![Build, Run, Upload Combined](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish_combined.yml/badge.svg)
+![Build, Run, Upload (Parallel)](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish.yml/badge.svg)
+![Build, Run, Upload (Sequential)](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish_combined.yml/badge.svg)
 
 Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths.
 
