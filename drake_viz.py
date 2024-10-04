@@ -193,7 +193,7 @@ def show_pose(meshcat, x_b, x_w, x_e, theta, is_persist=False):
     )
 
 
-def display_trajectory(x_w_traj, x_b_traj, x_e_traj, heading_traj):
+def display_trajectory(x_w_traj, x_b_traj, x_e_traj, heading_traj, html_output):
     meshcat = StartMeshcat()
     meshcat.SetCameraPose(
         camera_in_world=[-1.5, -1.0, 2.5], target_in_world=[0.0, 0.0, 0.0]
@@ -306,8 +306,12 @@ def display_trajectory(x_w_traj, x_b_traj, x_e_traj, heading_traj):
     visualizer.StopRecording()
     visualizer.PublishRecording()
 
-    while True:
-        sleep(0.5)
+    if html_output is not None:
+        with open(html_output, "w") as f:
+            f.write(meshcat.StaticHtml())
+    else:
+        while True:
+            sleep(0.5)
 
 
 if __name__ == "__main__":
@@ -318,7 +322,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--filename",
-        help="File containing the trajectory guess",
+        help="File containing the trajectory to visualize",
+        type=str,
+        required=True,
+    )
+    parser.add_argument(
+        "--html_output",
+        help="If set, saves to an html file",
         type=str,
         required=False,
     )
@@ -331,4 +341,5 @@ if __name__ == "__main__":
         x_b_traj=x_b_traj,
         x_e_traj=x_e_traj,
         heading_traj=heading_traj,
+        html_output=args.html_output,
     )
