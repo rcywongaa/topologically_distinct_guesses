@@ -38,8 +38,9 @@ jobs:
           name: trajectory0_opt.txt
           path: trajectory0_opt.txt
 
+      # Skip warehouse-ros-mongo dependency: https://github.com/moveit/warehouse_ros_mongo/issues/75
       - name: Build ros2_ws
-        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src && colcon build
+        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
 
       # - name: Build ros2_ws
       #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
