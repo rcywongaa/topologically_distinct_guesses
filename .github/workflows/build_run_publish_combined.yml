@@ -1,0 +1,84 @@
+name: Build, Run, Upload Combined
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push events but only for the $default-branch branch
+  push:
+    branches: [ 'master' ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  generate-paths:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Generate paths
+        working-directory: ./topo_geo_paths
+        run: cargo run -r
+
+      - name: Upload trajectory0.txt
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory0.txt
+          path: topo_geo_paths/trajectory0.txt
+
+      - name: Optimize trajectory
+        run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory0.txt --output trajectory0_opt.txt 2>/dev/null
+
+      - name: Upload trajectory0_opt
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory0_opt.txt
+          path: trajectory0_opt.txt
+
+      - name: Build ros2_ws
+        run: cd ros2_ws && source /opt/ros/humble/setup.bash && sudo rosdep init && rosdep update && rosdep install -r -y --from-paths . --ignore-src && colcon build
+
+      # - name: Build ros2_ws
+      #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
+
+      - name: Visualize
+        run: source ros2_ws/install/setup.zsh; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html
+
+      - name: Upload trajectory0_opt.html
+        uses: actions/upload-artifact@v4
+        with:
+          name: trajectory0_opt.html
+          path: trajectory0_opt.html
+
+  upload_pages:
+    needs: generate-paths
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download trajectory0_opt.html
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory0_opt.html
+          path: pages
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
