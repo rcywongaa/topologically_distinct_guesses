@@ -127,6 +127,18 @@ jobs:
         with:
           name: trajectory0_opt.html
           path: pages
+          
+      - name: Download trajectory1_opt.html
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory1_opt.html
+          path: pages
+          
+      - name: Download trajectory2_opt.html
+        uses: actions/download-artifact@v4
+        with:
+          name: trajectory2_opt.html
+          path: pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
