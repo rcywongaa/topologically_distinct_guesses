@@ -19,6 +19,7 @@ runs:
 
       - name: Optimize trajectory
         run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory${{ inputs.path_index }}.txt --output trajectory${{ inputs.path_index }}_opt.txt 2>/dev/null
+        shell: bash
 
       - name: Upload optimized trajectory
         uses: actions/upload-artifact@v4

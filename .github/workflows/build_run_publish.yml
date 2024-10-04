@@ -32,14 +32,14 @@ jobs:
       - name: Upload trajectory1
         uses: actions/upload-artifact@v4
         with:
-          name: trajectory1
-          path: trajectory1.txt
+          name: trajectory1.txt
+          path: topo_geo_paths/trajectory1.txt
 
       - name: Upload trajectory2
         uses: actions/upload-artifact@v4
         with:
-          name: trajectory2
-          path: trajectory2.txt
+          name: trajectory2.txt
+          path: topo_geo_paths/trajectory2.txt
 
   optimize-path0:
     runs-on: ubuntu-latest
