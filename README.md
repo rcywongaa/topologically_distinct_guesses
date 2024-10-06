@@ -4,7 +4,20 @@
 
 Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths.
 
-Steps:
+## Build
+1. Install [Drake](https://drake.mit.edu/apt.html#stable-releases)
+1. Install pybullet (recommended via virtual environment [`venv`](https://realpython.com/python-virtual-environments-a-primer/))
+    ```
+    python3 -m venv .
+    source bin/activate
+    pip3 install pybullet --upgrade
+    ```
+1. Build `ros2_ws`
+    ```
+    cd ros2_ws && rosdep install -y --ignore-src --rosdistro jazzy --from-paths .
+    ```
+
+## Run
 1. Edit `config/planning_setting.py` to set up planning parameters
 1. `pushd config && python3 planning_setting.py; popd`
 1. `pushd topo_geo_paths && RUST_BACKTRACE=1 RUST_LOG=info cargo run -r; popd`
