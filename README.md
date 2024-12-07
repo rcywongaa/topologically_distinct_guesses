@@ -2,6 +2,8 @@
 ![Build, Run, Upload (Parallel)](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish.yml/badge.svg)
 ![Build, Run, Upload (Sequential)](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish_combined.yml/badge.svg)
 
+https://arxiv.org/abs/2410.20635
+
 <!-- Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths. -->
 ## Results
 [Path 1](https://rcywongaa.github.io/topologically_distinct_guesses/trajectory0_opt.html)
