@@ -1,0 +1,121 @@
+Using trajectory0.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 62.53748416900635s
+Success?  False
+Cost: 10.910352816154282
+Using trajectory1.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 26.29611372947693s
+Success?  False
+Cost: 20.20427881460878
+Using trajectory2.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 29.699896335601807s
+Success?  True
+Cost: 2.67265989576035
+Using trajectory3.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 34.311171531677246s
+Success?  False
+Cost: 291.0886903147344
+Using trajectory4.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 17.652068853378296s
+Success?  False
+Cost: 82.87005477308344
+Using trajectory5.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 43.98102307319641s
+Success?  False
+Cost: 24.79544924710746
+Using trajectory6.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 49.3191442489624s
+Success?  False
+Cost: 32.98199639589475
+Using trajectory7.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 21.36739182472229s
+Success?  True
+Cost: 2.342670134494756
+Using trajectory8.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 49.12042307853699s
+Success?  False
+Cost: 30.616595374310876
+Using trajectory9.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 29.393604278564453s
+Success?  True
+Cost: 2.7902109065575336
+Using trajectory10.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 44.71939253807068s
+Success?  False
+Cost: 342.4836977089597
+Using trajectory11.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 29.816606521606445s
+Success?  True
+Cost: 2.702676722894357
+Using trajectory12.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 26.546303033828735s
+Success?  True
+Cost: 16.619130286042793
+Using trajectory13.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 31.822964906692505s
+Success?  True
+Cost: 2.5078047519126065
+Using trajectory14.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 27.22599220275879s
+Success?  True
+Cost: 2.72991806343286
+Using trajectory15.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 70.19627976417542s
+Success?  False
+Cost: 12.462192258278879
+Using trajectory16.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 23.01929473876953s
+Success?  False
+Cost: 613.4891572714209
+Using trajectory17.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 114.36213254928589s
+Success?  False
+Cost: 8.007438959300423
+Using trajectory18.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 29.296913146972656s
+Success?  False
+Cost: 37.16523817172148
+Using trajectory19.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 44.55349922180176s
+Success?  False
+Cost: 962.1830846826708
+

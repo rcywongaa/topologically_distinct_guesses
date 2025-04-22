@@ -1,0 +1,165 @@
+[INFO] [launch]: All log files can be found below /home/rufus/.ros/log/2024-06-07-11-38-32-474777-rufus-X1X-3038846
+[INFO] [launch]: Default logging verbosity is set to INFO
+Using load_yaml() directly is deprecated. Use xacro.load_yaml() instead.
+[INFO] [static_transform_publisher-1]: process started with pid [3038893]
+[INFO] [robot_state_publisher-2]: process started with pid [3038895]
+[INFO] [rviz2-3]: process started with pid [3038897]
+[INFO] [move_group-4]: process started with pid [3038899]
+[INFO] [ompl_constrained_planning-5]: process started with pid [3038901]
+[INFO] [ros2_control_node-6]: process started with pid [3038903]
+[INFO] [ros2 run controller_manager spawner mobile_manipulator_controller-7]: process started with pid [3038905]
+[INFO] [ros2 run controller_manager spawner joint_state_broadcaster-8]: process started with pid [3038907]
+[robot_state_publisher-2] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[static_transform_publisher-1] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[rviz2-3] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[ros2_control_node-6] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[robot_state_publisher-2] [INFO] [1717753112.861592345] [robot_state_publisher]: got segment base
+[robot_state_publisher-2] [INFO] [1717753112.861722383] [robot_state_publisher]: got segment base_x
+[robot_state_publisher-2] [INFO] [1717753112.861736493] [robot_state_publisher]: got segment base_y
+[robot_state_publisher-2] [INFO] [1717753112.861745779] [robot_state_publisher]: got segment eef
+[robot_state_publisher-2] [INFO] [1717753112.861754169] [robot_state_publisher]: got segment elbow
+[robot_state_publisher-2] [INFO] [1717753112.861762242] [robot_state_publisher]: got segment forearm
+[robot_state_publisher-2] [INFO] [1717753112.861770407] [robot_state_publisher]: got segment shoulder_lift
+[robot_state_publisher-2] [INFO] [1717753112.861778676] [robot_state_publisher]: got segment shoulder_pan
+[robot_state_publisher-2] [INFO] [1717753112.861786961] [robot_state_publisher]: got segment upperarm
+[robot_state_publisher-2] [INFO] [1717753112.861794858] [robot_state_publisher]: got segment world_base
+[static_transform_publisher-1] [INFO] [1717753112.863995654] [static_transform_publisher]: Spinning until stopped - publishing transform
+[static_transform_publisher-1] translation: ('0.000000', '0.000000', '0.000000')
+[static_transform_publisher-1] rotation: ('0.000000', '0.000000', '0.000000', '1.000000')
+[static_transform_publisher-1] from 'world' to 'world_base'
+[move_group-4] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[ros2_control_node-6] [INFO] [1717753112.885247139] [controller_manager]: Subscribing to '~/robot_description' topic for robot description file.
+[ros2_control_node-6] [INFO] [1717753112.886758795] [controller_manager]: update rate is 100 Hz
+[ros2_control_node-6] [INFO] [1717753112.886976486] [controller_manager]: RT kernel is recommended for better performance
+[move_group-4] [INFO] [1717753112.936138926] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.00206882 seconds
+[move_group-4] [INFO] [1717753112.936220951] [moveit_robot_model.robot_model]: Loading robot model 'mobile_manipulator'...
+[ompl_constrained_planning-5] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[move_group-4] [INFO] [1717753112.965675065] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Publishing maintained planning scene on 'monitored_planning_scene'
+[move_group-4] [INFO] [1717753112.965830996] [moveit.ros_planning_interface.moveit_cpp]: Listening to 'joint_states' for joint states
+[move_group-4] [INFO] [1717753112.966608821] [moveit_ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[move_group-4] [INFO] [1717753112.967026121] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/attached_collision_object' for attached collision objects
+[move_group-4] [INFO] [1717753112.967044316] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting planning scene monitor
+[move_group-4] [INFO] [1717753112.967316572] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/planning_scene'
+[move_group-4] [INFO] [1717753112.967331760] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting world geometry update monitor for collision objects, attached objects, octomap updates.
+[move_group-4] [INFO] [1717753112.967650473] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'collision_object'
+[move_group-4] [INFO] [1717753112.967957869] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to 'planning_scene_world' for planning scene world geometry
+[move_group-4] [WARN] [1717753112.968449032] [moveit.ros.occupancy_map_monitor.middleware_handle]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+[ompl_constrained_planning-5] [INFO] [1717753112.991454732] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.00237139 seconds
+[ompl_constrained_planning-5] [INFO] [1717753112.992367463] [moveit_robot_model.robot_model]: Loading robot model 'mobile_manipulator'...
+[ros2_control_node-6] [INFO] [1717753113.017376458] [controller_manager]: Received robot description file.
+[ros2_control_node-6] [INFO] [1717753113.017621707] [resource_manager]: Loading hardware 'FakeSystem' 
+[ros2_control_node-6] [INFO] [1717753113.018235799] [resource_manager]: Initialize hardware 'FakeSystem' 
+[ros2_control_node-6] [WARN] [1717753113.018297317] [mock_generic_system]: Parsing of optional initial interface values failed or uses a deprecated format. Add initial values for every state interface in the ros2_control.xacro. For example: 
+[ros2_control_node-6] <state_interface name="velocity"> 
+[ros2_control_node-6]   <param name="initial_value">0.0</param> 
+[ros2_control_node-6] </state_interface>
+[ros2_control_node-6] [INFO] [1717753113.018327655] [resource_manager]: Successful initialization of hardware 'FakeSystem'
+[ros2_control_node-6] [INFO] [1717753113.018394720] [resource_manager]: 'configure' hardware 'FakeSystem' 
+[ros2_control_node-6] [INFO] [1717753113.018409883] [resource_manager]: Successful 'configure' of hardware 'FakeSystem'
+[ros2_control_node-6] [INFO] [1717753113.018421714] [resource_manager]: 'activate' hardware 'FakeSystem' 
+[ros2_control_node-6] [INFO] [1717753113.018431203] [resource_manager]: Successful 'activate' of hardware 'FakeSystem'
+[move_group-4] [INFO] [1717753113.243033231] [moveit.ros.perception.pointcloud_octomap_updater]: Listening to '/head_mount_kinect/depth_registered/points' using message filter with target frame 'world_base '
+[move_group-4] [INFO] [1717753113.260465566] [moveit.ros_planning_interface.moveit_cpp]: Loading planning pipeline 'ompl'
+[move_group-4] [ERROR] [1717753113.285773947] [moveit.ompl_planning.ompl_interface]: Could not find the planner configuration 'APSConfigDefault' on the param server
+[move_group-4] [INFO] [1717753113.287278054] [moveit.ros_planning.planning_pipeline]: Using planning interface 'OMPL'
+[move_group-4] [INFO] [1717753113.291675453] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.path_tolerance' was not set. Using default value: 0.100000
+[move_group-4] [INFO] [1717753113.291717545] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.resample_dt' was not set. Using default value: 0.100000
+[move_group-4] [INFO] [1717753113.291727602] [moveit_ros.add_time_optimal_parameterization]: Param 'ompl.min_angle_change' was not set. Using default value: 0.001000
+[move_group-4] [INFO] [1717753113.291769035] [moveit_ros.fix_workspace_bounds]: Param 'ompl.default_workspace_bounds' was not set. Using default value: 10.000000
+[move_group-4] [INFO] [1717753113.291799041] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_bounds_error' was set to 0.100000
+[move_group-4] [INFO] [1717753113.291808347] [moveit_ros.fix_start_state_bounds]: Param 'ompl.start_state_max_dt' was not set. Using default value: 0.500000
+[move_group-4] [INFO] [1717753113.291829066] [moveit_ros.fix_start_state_collision]: Param 'ompl.start_state_max_dt' was not set. Using default value: 0.500000
+[move_group-4] [INFO] [1717753113.291838149] [moveit_ros.fix_start_state_collision]: Param 'ompl.jiggle_fraction' was not set. Using default value: 0.020000
+[move_group-4] [INFO] [1717753113.291848981] [moveit_ros.fix_start_state_collision]: Param 'ompl.max_sampling_attempts' was not set. Using default value: 100
+[move_group-4] [INFO] [1717753113.291872255] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Add Time Optimal Parameterization'
+[move_group-4] [INFO] [1717753113.291880048] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Resolve constraint frames to robot links'
+[move_group-4] [INFO] [1717753113.291885408] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Workspace Bounds'
+[move_group-4] [INFO] [1717753113.291891001] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State Bounds'
+[move_group-4] [INFO] [1717753113.291896735] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State In Collision'
+[move_group-4] [INFO] [1717753113.291964836] [moveit.ros_planning.planning_pipeline]: Using planning request adapter 'Fix Start State Path Constraints'
+[move_group-4] [INFO] [1717753113.409514241] [moveit.plugins.moveit_simple_controller_manager]: Added FollowJointTrajectory controller for mobile_manipulator_controller
+[move_group-4] [INFO] [1717753113.409721143] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-4] [INFO] [1717753113.409752776] [moveit.plugins.moveit_simple_controller_manager]: Returned 1 controllers in list
+[move_group-4] [INFO] [1717753113.410810082] [moveit_ros.trajectory_execution_manager]: Trajectory execution is managing controllers
+[move_group-4] [INFO] [1717753113.410837496] [move_group.move_group]: MoveGroup debug mode is ON
+[ompl_constrained_planning-5] [INFO] [1717753113.440651981] [move_group_interface]: Ready to take commands for planning group mobile_manipulator.
+[move_group-4] [INFO] [1717753113.444622606] [move_group.move_group]: 
+[move_group-4] 
+[move_group-4] ********************************************************
+[move_group-4] * MoveGroup using: 
+[move_group-4] *     - ApplyPlanningSceneService
+[move_group-4] *     - ClearOctomapService
+[move_group-4] *     - CartesianPathService
+[move_group-4] *     - ExecuteTrajectoryAction
+[move_group-4] *     - GetPlanningSceneService
+[move_group-4] *     - KinematicsService
+[move_group-4] *     - MoveAction
+[move_group-4] *     - MotionPlanService
+[move_group-4] *     - QueryPlannersService
+[move_group-4] *     - StateValidationService
+[move_group-4] ********************************************************
+[move_group-4] 
+[move_group-4] [INFO] [1717753113.444673902] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context using planning plugin ompl_interface/OMPLPlanner
+[move_group-4] [INFO] [1717753113.444689038] [moveit_move_group_capabilities_base.move_group_context]: MoveGroup context initialization complete
+[move_group-4] Loading 'move_group/ApplyPlanningSceneService'...
+[move_group-4] Loading 'move_group/ClearOctomapService'...
+[move_group-4] Loading 'move_group/MoveGroupCartesianPathService'...
+[move_group-4] Loading 'move_group/MoveGroupExecuteTrajectoryAction'...
+[move_group-4] Loading 'move_group/MoveGroupGetPlanningSceneService'...
+[move_group-4] Loading 'move_group/MoveGroupKinematicsService'...
+[move_group-4] Loading 'move_group/MoveGroupMoveAction'...
+[move_group-4] Loading 'move_group/MoveGroupPlanService'...
+[move_group-4] Loading 'move_group/MoveGroupQueryPlannersService'...
+[move_group-4] Loading 'move_group/MoveGroupStateValidationService'...
+[move_group-4] 
+[move_group-4] You can start planning now!
+[move_group-4] 
+[rviz2-3] [INFO] [1717753113.605116288] [rviz2]: Stereo is NOT SUPPORTED
+[rviz2-3] [INFO] [1717753113.606669294] [rviz2]: OpenGl version: 4.6 (GLSL 4.6)
+[rviz2-3] [INFO] [1717753113.667579050] [rviz2]: Stereo is NOT SUPPORTED
+[ros2 run controller_manager spawner mobile_manipulator_controller-7] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[ros2 run controller_manager spawner joint_state_broadcaster-8] RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED is now ignored. Please set RCUTILS_LOGGING_USE_STDOUT and RCUTILS_LOGGING_BUFFERED_STREAM to control the stream and the buffering of log messages.
+[rviz2-3] [INFO] [1717753113.816645264] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.00172944 seconds
+[rviz2-3] [INFO] [1717753113.816706166] [moveit_robot_model.robot_model]: Loading robot model 'mobile_manipulator'...
+[rviz2-3] [WARN] [1717753113.845440871] [rcl.logging_rosout]: Publisher already registered for provided node name. If this is due to multiple nodes with the same name then all logs for that logger name will go out over the existing publisher. As soon as any node with that name is destructed it will unregister the publisher, preventing any further logs for that name from being published on the rosout topic.
+[rviz2-3] [INFO] [1717753113.871487394] [moveit_rdf_loader.rdf_loader]: Loaded robot model in 0.00104276 seconds
+[rviz2-3] [INFO] [1717753113.871520329] [moveit_robot_model.robot_model]: Loading robot model 'mobile_manipulator'...
+[rviz2-3] [WARN] [1717753113.874735333] [moveit_ros.robot_model_loader]: No kinematics plugins defined. Fill and load kinematics.yaml!
+[rviz2-3] [INFO] [1717753113.909647149] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Starting planning scene monitor
+[rviz2-3] [INFO] [1717753113.910725105] [moveit_ros.planning_scene_monitor.planning_scene_monitor]: Listening to '/monitored_planning_scene'
+[ros2_control_node-6] [INFO] [1717753114.884958607] [controller_manager]: Loading controller 'mobile_manipulator_controller'
+[ros2_control_node-6] [WARN] [1717753114.902179104] [mobile_manipulator_controller]: [Deprecated]: "allow_nonzero_velocity_at_trajectory_end" is set to true. The default behavior will change to false.
+[ros2 run controller_manager spawner mobile_manipulator_controller-7] [INFO] [1717753114.908165220] [spawner_mobile_manipulator_controller]: Loaded mobile_manipulator_controller
+[ros2_control_node-6] [INFO] [1717753114.909208883] [controller_manager]: Configuring controller 'mobile_manipulator_controller'
+[ros2_control_node-6] [INFO] [1717753114.909463824] [mobile_manipulator_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[ros2_control_node-6] [INFO] [1717753114.909498685] [mobile_manipulator_controller]: Command interfaces are [position] and state interfaces are [position velocity].
+[ros2_control_node-6] [INFO] [1717753114.909516075] [mobile_manipulator_controller]: Using 'splines' interpolation method.
+[ros2_control_node-6] [INFO] [1717753114.910727137] [mobile_manipulator_controller]: Controller state will be published at 50.00 Hz.
+[ros2_control_node-6] [INFO] [1717753114.913589291] [mobile_manipulator_controller]: Action status changes will be monitored at 20.00 Hz.
+[ros2 run controller_manager spawner mobile_manipulator_controller-7] [INFO] [1717753114.947900615] [spawner_mobile_manipulator_controller]: Configured and activated mobile_manipulator_controller
+[INFO] [ros2 run controller_manager spawner mobile_manipulator_controller-7]: process has finished cleanly [pid 3038905]
+[ros2 run controller_manager spawner joint_state_broadcaster-8] [INFO] [1717753115.840163426] [spawner_joint_state_broadcaster]: Waiting for '/controller_manager' node to exist
+[ros2_control_node-6] [INFO] [1717753116.653703156] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2 run controller_manager spawner joint_state_broadcaster-8] [INFO] [1717753116.668097941] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[ros2_control_node-6] [INFO] [1717753116.669026429] [controller_manager]: Configuring controller 'joint_state_broadcaster'
+[ros2_control_node-6] [INFO] [1717753116.669096312] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[ros2 run controller_manager spawner joint_state_broadcaster-8] [INFO] [1717753116.697953143] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[INFO] [ros2 run controller_manager spawner joint_state_broadcaster-8]: process has finished cleanly [pid 3038907]
+[ompl_constrained_planning-5] [INFO] [1717753118.477056669] [moveit_ros.current_state_monitor]: Listening to joint states on topic 'joint_states'
+[ompl_constrained_planning-5] [INFO] [1717753118.478116799] [ompl_constrained_planning_demo_node.remote_control]: RemoteControl Ready.
+[ompl_constrained_planning-5] [INFO] [1717753118.478146432] [ompl_constrained_planning_demo_node.remote_control]: Waiting to continue: Press 'next' in the RvizVisualToolsGui window to continue to the linear constraint example
+[ompl_constrained_planning-5] [INFO] [1717753121.171226368] [ompl_constrained_planning_demo_node.remote_control]: ... continuing
+[ompl_constrained_planning-5] [INFO] [1717753121.179255336] [move_group_interface]: MoveGroup action client/server ready
+[move_group-4] [INFO] [1717753121.180446082] [moveit_move_group_default_capabilities.move_action_capability]: Received request
+[ompl_constrained_planning-5] [INFO] [1717753121.181034715] [move_group_interface]: Planning request accepted
+[move_group-4] [INFO] [1717753121.181174390] [moveit_move_group_default_capabilities.move_action_capability]: executing..
+[move_group-4] [INFO] [1717753121.188465200] [moveit_move_group_default_capabilities.move_action_capability]: Planning request received for MoveGroup action. Forwarding to planning pipeline.
+[move_group-4] [INFO] [1717753121.211461759] [moveit.ompl_planning.model_based_planning_context]: Planner configuration 'mobile_manipulator' will use planner 'geometric::RRTConnect'. Additional configuration parameters will be set when the planner is constructed.
+[move_group-4] [ERROR] [1717753125.527113683] [ompl]: ./src/ompl/base/src/SpaceInformation.cpp:468 - State samplers generate constraint unsatisfying states.
+[move_group-4] [WARN] [1717753125.710856652] [moveit_trajectory_processing.time_optimal_trajectory_generation]: Joint acceleration limits are not defined. Using the default 1 rad/s^2. You can define acceleration limits in the URDF or joint_limits.yaml.
+[move_group-4] [INFO] [1717753125.877288726] [moveit_move_group_default_capabilities.move_action_capability]: Motion plan was computed successfully.
+[ompl_constrained_planning-5] [INFO] [1717753125.877783564] [move_group_interface]: Planning request complete!
+[ompl_constrained_planning-5] [INFO] [1717753125.878669430] [move_group_interface]: time taken to generate plan: 4.31616 seconds
+[ompl_constrained_planning-5] [INFO] [1717753125.878692386] [ompl_constrained_planning_demo]: Plan with line constraint 
+[ompl_constrained_planning-5] [INFO] [1717753125.887785709] [ompl_constrained_planning_demo_node.remote_control]: Waiting to continue: Press 'next' in the RvizVisualToolsGui window to continue to the linear constraint example
+

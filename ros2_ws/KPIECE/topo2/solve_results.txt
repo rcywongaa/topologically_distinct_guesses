@@ -1,0 +1,32 @@
+Using ./topo2/trial2/trajectory17.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 24.176544427871704s
+Success?  False
+Cost: 571.8866745954238
+Using ./topo2/trial0/trajectory17.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 22.899502515792847s
+Success?  False
+Cost: 177.94160209858873
+Using ./topo2/trajectory0.txt as guess
+WARNING: Large error (0.016897474017695223) - x_w: [ 0.57509721 -0.12508636  0.17106476], x_b: [ 0.40030704 -0.29851228], x_e: [0.77490888 0.02532413 0.50861959], a: 0.4972559521214088
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 20.707640647888184s
+Success?  False
+Cost: 274.89281367067497
+Using ./topo2/trajectory4.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 196.18930172920227s
+Success?  True
+Cost: 5.747588309127884
+Using ./topo2/trial1/trajectory35.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 33.953351736068726s
+Success?  False
+Cost: 899.6854114436871
+

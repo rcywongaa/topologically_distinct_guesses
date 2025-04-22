@@ -1,0 +1,73 @@
+Using ./topo3/trial0/trajectory6.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 136.370454788208s
+Success?  True
+Cost: 16.7176249218105
+Using ./topo3/trial0/trajectory3.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 72.63245582580566s
+Success?  False
+Cost: 224.04108783251016
+Using ./topo3/trial0/trajectory14.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 53.86904430389404s
+Success?  False
+Cost: 101.23135657082669
+Using ./topo3/trial0/trajectory0.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 24.035644054412842s
+Success?  False
+Cost: 158.5030709557814
+Using ./topo3/trial0/trajectory12.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 69.25147128105164s
+Success?  False
+Cost: 214.72093018710177
+Using ./topo3/trial0/trajectory5.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 43.55039596557617s
+Success?  True
+Cost: 34.56329861805017
+Using ./topo3/trial0/trajectory2.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 162.54316639900208s
+Success?  False
+Cost: 81.89755761347875
+Using ./topo3/trial1/trajectory9.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 66.0477774143219s
+Success?  False
+Cost: 85.2611620013331
+Using ./topo3/trial1/trajectory0.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 54.927372217178345s
+Success?  False
+Cost: 55.788547076769134
+Using ./topo3/trial1/trajectory8.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 248.03837299346924s
+Success?  False
+Cost: 11.130199756710294
+Using ./topo3/trial1/trajectory1.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 90.1562442779541s
+Success?  False
+Cost: 103.24034183941124
+Using ./topo3/trial1/trajectory2.txt as guess
+Beginning to solve...
+Solver:  SNOPT
+Solve time: 85.95541644096375s
+Success?  False
+Cost: 220.40663960699703
+
