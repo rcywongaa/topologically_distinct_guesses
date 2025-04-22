@@ -126,7 +126,10 @@ def read_trajectory_from_file(filename):
             x_w.append(curr_x_w)
             x_e.append(curr_x_e)
             x_b.append(curr_x_b)
-            heading.append(pose_vec[9])
+            if len(pose_vec) > 9:
+                heading.append(pose_vec[9])
+            else:
+                heading.append(0.0)
         return np.array(x_w), np.array(x_e), np.array(x_b), np.array(heading)
 
 

@@ -326,7 +326,8 @@ int main(int argc, char** argv)
     move_group_interface.setPlanningTime(300.0);
     move_group_interface.setGoalPositionTolerance(0.01);
     // move_group_interface.setNumPlanningAttempts(5);
-    move_group_interface.setPlannerId("KPIECEkConfigDefault");
+    // move_group_interface.setPlannerId("KPIECEkConfigDefault");
+    move_group_interface.setPlannerId("RRTConnectkConfigDefault");
 
     auto start_time = std::chrono::system_clock::now();
     moveit::planning_interface::MoveGroupInterface::Plan plan;
@@ -355,7 +356,7 @@ int main(int argc, char** argv)
       moveit::core::RobotStatePtr robot_state(
           new moveit::core::RobotState(kinematic_model));
 
-      auto trajectory = plan.trajectory_.joint_trajectory;
+      auto trajectory = plan.trajectory.joint_trajectory;
       for (auto point : trajectory.points) {
         auto positions = point.positions;
         robot_state->setJointGroupPositions("mobile_manipulator", positions);

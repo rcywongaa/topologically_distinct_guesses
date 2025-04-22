@@ -46,10 +46,10 @@ MAX_ANGULAR_VELOCITY = 4 * MAX_WHEEL_LINEAR_VELOCITY / WHEEL_BASE_WIDTH
 
 LOOP_PLAYBACK = False
 CAPTURE_VIZ = False
-VIZ_FREQ = None
+# VIZ_FREQ = None
 # LOOP_PLAYBACK = True
 # CAPTURE_VIZ = True
-# VIZ_FREQ = 10
+VIZ_FREQ = 10
 
 if CAPTURE_VIZ:
     from take_meshcat_screenshot import take_screenshot
@@ -195,6 +195,7 @@ def show_pose(meshcat, x_b, x_w, x_e, theta, is_persist=False):
     link_color = Rgba(0.0, 0.0, 0.0, 0.25)
     link_width = 1  # pixels
 
+    theta = np.squeeze(theta)
     x_b_name = "x_b"
     x_w_name = "x_w"
     x_e_name = "x_e"
@@ -213,8 +214,8 @@ def show_pose(meshcat, x_b, x_w, x_e, theta, is_persist=False):
     meshcat.SetObject(x_b_name, Sphere(radius), Rgba(1, 0, 0, 0.5))
     heading_indicator_position = (
         RigidTransform(x_b)
-        .multiply(RigidTransform(rpy=RollPitchYaw([0, 0, theta]), p=[0, 0, 0]))
-        .multiply(RigidTransform([radius, 0, 0]))
+        .multiply(RigidTransform(rpy=RollPitchYaw([0.0, 0.0, theta]), p=[0, 0, 0]))
+        .multiply(RigidTransform([radius, 0.0, 0.0]))
     )
 
     meshcat.SetTransform(
@@ -315,6 +316,7 @@ def optimize(
     v_guess=None,
     w_guess=None,
     delta_x_w_guess=None,
+    viz_freq=None,
 ):
     """Attempt to use drake's ComputeSignedDistanceToPoint (doesn't work with Expression)"""
     # scene_graph = SceneGraph()
@@ -465,12 +467,11 @@ def optimize(
 
     options = SolverOptions()
     # options.SetOption(CommonSolverOption.kPrintToConsole, 1)
-    options.SetOption(SnoptSolver.id(), "Major optimality tolerance", 5e-5)
-    # options.SetOption(SnoptSolver.id(), "Linesearch tolerance", 0.99)
-    # options.SetOption(SnoptSolver.id(), "Major step limit", 0.1)
-    options.SetOption(SnoptSolver.id(), "Major step limit", 0.5)
+    options.SetOption(SnoptSolver.id(), "Major optimality tolerance", 5e-4)
+    # options.SetOption(SnoptSolver.id(), "Linesearch tolerance", 0.2)
+    options.SetOption(SnoptSolver.id(), "Major step limit", 0.25)
     prog.SetSolverOptions(options)
-    if VIZ_FREQ is not None:
+    if viz_freq is not None:
         prog.AddVisualizationCallback(
             lambda x: visualization_callback(meshcat, prog, x, x_b, x_w, theta),
             prog.decision_variables(),
@@ -502,7 +503,7 @@ def calc_a(x_w, x_b, x_e):
     error = np.linalg.norm(x_be * a - x_bw)
     if error > 0.01:
         print(
-            f"WARNING: Large error ({error})"
+            f"WARNING: Large error ({error}) - "
             f"x_w: {x_w}, x_b: {x_b}, x_e: {x_e}, a: {a}"
         )
     # assert np.linalg.norm(x_be * ret - x_bw) < 1e-3
@@ -691,6 +692,7 @@ if __name__ == "__main__":
         v_guess=v_guess,
         w_guess=w_guess,
         delta_x_w_guess=delta_x_w_guess,
+        viz_freq=VIZ_FREQ,
     )
 
     # planning_setting.disconnect_pybullet()

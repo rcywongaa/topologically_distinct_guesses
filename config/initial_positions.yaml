@@ -1,10 +1,10 @@
 initial_positions:
-  base_x: -1.4
-  base_y: 0.05
+  base_x: -1.0
+  base_y: 0.1
   eef_spherical_x: 0.0
   eef_spherical_y: 0.0
   eef_spherical_z: 0.0
-  elbow_flex: 1.2041286731793477
-  shoulder_lift: 1.344696865251302
-  shoulder_pan: -0.12435499454676159
-  shoulder_roll: -3.915036581051888e-33
+  elbow_flex: -1.5291175943723192
+  shoulder_lift: 0.8674573622841626
+  shoulder_pan: 1.5707963267948966
+  shoulder_roll: 0.0

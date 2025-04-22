@@ -3,8 +3,10 @@
     <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
 
     <!-- Import mobile_manipulator urdf file -->
-    <!-- <xacro:include filename="$(find simple_8dof_mobile_manipulator)/config/8dof_mobile_manipulator.urdf" /> -->
-    <xacro:include filename="$(find simple_8dof_mobile_manipulator)/config/simplified_kinova_turtlebot.urdf" />
+    <xacro:include
+        filename="$(find simple_8dof_mobile_manipulator)/config/8dof_mobile_manipulator.urdf" />
+    <!-- <xacro:include filename="$(find
+    simple_8dof_mobile_manipulator)/config/simplified_kinova_turtlebot.urdf" /> -->
 
     <!-- Import control_xacro -->
     <xacro:include filename="mobile_manipulator.ros2_control.xacro" />

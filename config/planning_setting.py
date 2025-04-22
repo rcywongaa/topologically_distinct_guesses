@@ -25,11 +25,16 @@ p.connect(p.DIRECT)
 p.resetSimulation()
 
 max_distance = 100
-# scene_name = "simple_scene"
-scene_name = "bar_table_scene"
-# scene_name = "rosie_scene"
-# wavy = False
-wavy = True
+
+planning_problem = 1
+if planning_problem == 1:
+    scene_name = "simple_scene"
+    wavy = False
+elif planning_problem == 2:
+    scene_name = "bar_table_scene"
+    wavy = True
+else:
+    raise ValueError(f"Unknown planning problem {planning_problem}")
 
 try:
     from . import calc_elbow_position
