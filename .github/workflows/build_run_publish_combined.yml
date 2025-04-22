@@ -11,7 +11,7 @@ on:
 
 jobs:
   generate-paths:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
@@ -70,10 +70,10 @@ jobs:
 
       # Skip warehouse-ros-mongo dependency: https://github.com/moveit/warehouse_ros_mongo/issues/75
       - name: Build ros2_ws
-        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
+        run: cd ros2_ws && source /opt/ros/jazzy/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
 
       # - name: Build ros2_ws
-      #   run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
+      #   run: cd ros2_ws && source /opt/ros/jazzy/setup.bash && colcon build
 
       - name: Visualize trajectory0
         run: source ros2_ws/install/setup.bash; python3 drake_viz.py --filename=trajectory0_opt.txt --html_output=trajectory0_opt.html

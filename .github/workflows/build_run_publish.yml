@@ -11,7 +11,7 @@ on:
 
 jobs:
   generate-paths:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -127,13 +127,13 @@ jobs:
         with:
           name: trajectory0_opt.html
           path: pages
-          
+
       - name: Download trajectory1_opt.html
         uses: actions/download-artifact@v4
         with:
           name: trajectory1_opt.html
           path: pages
-          
+
       - name: Download trajectory2_opt.html
         uses: actions/download-artifact@v4
         with:
