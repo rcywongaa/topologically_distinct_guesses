@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
+        # with:
+        #   submodules: true
 
       - name: Setup
         uses: ./.github/actions/setup
@@ -45,7 +45,7 @@ jobs:
           path: topo_geo_paths/trajectory2.txt
 
   optimize-path0:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: generate-paths
 
     steps:
@@ -56,7 +56,7 @@ jobs:
           path_index: 0
 
   optimize-path1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: generate-paths
 
     steps:
@@ -67,7 +67,7 @@ jobs:
           path_index: 1
 
   optimize-path2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: generate-paths
 
     steps:
@@ -78,7 +78,7 @@ jobs:
           path_index: 2
 
   visualize-path0:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: optimize-path0
 
     steps:
@@ -89,7 +89,7 @@ jobs:
           path_index: 0
 
   visualize-path1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: optimize-path1
 
     steps:
@@ -100,7 +100,7 @@ jobs:
           path_index: 1
 
   visualize-path2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: optimize-path2
 
     steps:
@@ -116,7 +116,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source

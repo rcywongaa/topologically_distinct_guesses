@@ -18,7 +18,7 @@ runs:
 
       # Skip warehouse-ros-mongo dependency: https://github.com/moveit/warehouse_ros_mongo/issues/75
       - name: Build ros2_ws
-        run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
+        run: cd ros2_ws && source /opt/ros/humble/setup.bash && sudo apt update && rosdep update && rosdep install -r -y --from-paths . --ignore-src --skip-keys warehouse_ros_mongo && colcon build
         shell: bash
 
       # - name: Build ros2_ws
