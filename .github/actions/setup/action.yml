@@ -5,7 +5,7 @@ runs:
   steps:
     - uses: ros-tooling/setup-ros@v0.7
       with:
-          required-ros-distributions: jazzy
+          required-ros-distributions: humble
 
     - name: Setup Drake
       run: |
