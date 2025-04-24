@@ -10,3 +10,4 @@ trial*/
 **/target/
 **.zip
 .git/
+.venv/
