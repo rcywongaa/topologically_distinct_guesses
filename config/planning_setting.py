@@ -26,7 +26,7 @@ p.resetSimulation()
 
 max_distance = 100
 
-planning_problem = 1
+planning_problem = 2
 if planning_problem == 1:
     scene_name = "simple_scene"
     wavy = False
