@@ -1,16 +1,10 @@
 # Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning
-![Build, Run, Upload (Parallel)](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish.yml/badge.svg)
-![Build, Run, Upload (Sequential)](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish_combined.yml/badge.svg)
-
-Paper: https://arxiv.org/abs/2410.20635
-
-Video: https://youtu.be/2erfN2FGMRI
 
 <!-- Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths. -->
 ## Results
-[Path 1](https://rcywongaa.github.io/topologically_distinct_guesses/trajectory0_opt.html)
-[Path 2](https://rcywongaa.github.io/topologically_distinct_guesses/trajectory1_opt.html)
-[Path 3](https://rcywongaa.github.io/topologically_distinct_guesses/trajectory2_opt.html)
+[Path 1](./trajectory0_opt.html)
+[Path 2](./trajectory1_opt.html)
+[Path 3](./trajectory2_opt.html)
 
 (Might show "No connection to server", please wait a few seconds and the simulation should load)
 
