@@ -1,14 +1,15 @@
 # Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning
 
 <!-- Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths. -->
-## Results
-[Path 1](./trajectory0_opt.html)
-[Path 2](./trajectory1_opt.html)
-[Path 3](./trajectory2_opt.html)
+<!-- ## Results -->
+<!-- Using anonymous.4open.science links here seems to mess up the README -->
+<!-- [Path 1](https://anonymous.4open.science/w/topologically_distinct_guesses-C0AA/trajectory0_opt.html)
+[Path 2](https://anonymous.4open.science/w/topologically_distinct_guesses-C0AA/trajectory1_opt.html)
+[Path 3](https://anonymous.4open.science/w/topologically_distinct_guesses-C0AA/trajectory2_opt.html)
 
-(Might show "No connection to server", please wait a few seconds and the simulation should load)
+(May show "No connection to server", please wait a few seconds for the simulation to load)
 
-Animation controls are under "Open Controls/Animation/defualt";
+Animation controls are under "Open Controls/Animation/defualt"; -->
 
 ## Build
 1. Install [Drake](https://drake.mit.edu/apt.html#stable-releases)
