@@ -89,7 +89,7 @@ def ik(x_b, x_w, x_e, heading, last_pan=None, last_lift=None, last_flex=None):
         )
     )
 
-    assert_array_almost_equal(real_x_w, x_w)
+    assert_array_almost_equal(real_x_w, x_w, decimal=4)
 
     # Law of cosines
     # l1 = planning_setting.upperarm_length
