@@ -1,15 +1,16 @@
-# Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning
+# Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning with Path Constraints
 
-<!-- Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths. -->
+ Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths. 
+ Alternatively, use the following links
 <!-- ## Results -->
 <!-- Using anonymous.4open.science links here seems to mess up the README -->
-<!-- [Path 1](https://anonymous.4open.science/w/topologically_distinct_guesses-C0AA/trajectory0_opt.html)
-[Path 2](https://anonymous.4open.science/w/topologically_distinct_guesses-C0AA/trajectory1_opt.html)
-[Path 3](https://anonymous.4open.science/w/topologically_distinct_guesses-C0AA/trajectory2_opt.html)
+[Path 1](https://refined-github-html-preview.kidonng.workers.dev/rcywongaa/topologically_distinct_guesses/raw/refs/heads/master/outputs/trajectory0_opt.html)
+[Path 2](https://refined-github-html-preview.kidonng.workers.dev/rcywongaa/topologically_distinct_guesses/raw/refs/heads/master/outputs/trajectory1_opt.html)
+[Path 3](https://refined-github-html-preview.kidonng.workers.dev/rcywongaa/topologically_distinct_guesses/raw/refs/heads/master/outputs/trajectory2_opt.html)
 
 (May show "No connection to server", please wait a few seconds for the simulation to load)
 
-Animation controls are under "Open Controls/Animation/defualt"; -->
+Animation controls are under "Open Controls/Animation/defualt"
 
 ## Setup
 1. Install [Drake](https://drake.mit.edu/apt.html#stable-releases)
