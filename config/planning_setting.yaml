@@ -18,7 +18,7 @@
       shoulder_lift: 0.8674573622841626
       shoulder_pan: 1.5707963267948966
       shoulder_roll: 0.0
-    final_theta: 1.5707963267948966
+    final_theta: -1.581741001357482
     final_x_b:
     - 1.0
     - 0.1
@@ -42,7 +42,7 @@
       shoulder_lift: 0.8674573622841626
       shoulder_pan: 1.5707963267948966
       shoulder_roll: 0.0
-    initial_theta: -1.5707963267948966
+    initial_theta: 2.303492815790136
     initial_x_b:
     - -1.0
     - 0.1
@@ -55,20 +55,39 @@
     - -1.0
     - 0.294030361697727
     - 0.2288060723395453
-    num_paths: 4
+    max_duration_s: 10
+    num_paths: 20
     sphere_obstacle_centers:
       '0':
-        x: 0.5
-        y: 0.0
+        x: -0.73031939538564
+        y: -0.17644732302792604
         z: 0.0
       '1':
-        x: -0.5
-        y: 0.0
+        x: 0.36479749769025993
+        y: 0.19411981851636184
+        z: 0.0
+      '2':
+        x: 0.610825220452464
+        y: -0.2458796498649271
+        z: 0.0
+      '3':
+        x: -0.3513599884397877
+        y: 0.06624134198078924
+        z: 0.0
+      '4':
+        x: 0.07606961184255523
+        y: -0.13113396986516057
         z: 0.0
     sphere_obstacle_radii:
-    - 0.25
-    - 0.25
+    - 0.15
+    - 0.15
+    - 0.15
+    - 0.15
+    - 0.15
     sphere_obstacles:
     - sphere_obstacle0
     - sphere_obstacle1
+    - sphere_obstacle2
+    - sphere_obstacle3
+    - sphere_obstacle4
     upperarm_length: 0.3

@@ -23,6 +23,7 @@ pub struct PlanningSetting {
   pub final_x_w: [f32; 3],
   pub final_x_e: [f32; 3],
   pub num_paths: usize,
+  pub max_duration_s: usize,
   pub link_radius: f32,
   pub base_radius: f32,
 }
@@ -46,6 +47,7 @@ pub fn get_planning_setting() -> PlanningSetting {
     final_x_w,
     final_x_e,
     num_paths: get_usize_constant("num_paths"),
+    max_duration_s: get_usize_constant("max_duration_s"),
     link_radius: get_f32_constant("link_radius"),
     base_radius: get_f32_constant("base_radius"),
   }

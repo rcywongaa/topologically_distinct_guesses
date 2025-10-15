@@ -146,11 +146,12 @@ pub fn find_distinct_paths(planning_setting: PlanningSetting, mut visualizer: Op
     &link_obs_func,
     &base_obs_func,
   );
+  let cg_generation_duration = now.elapsed();
   println!(
     "Graph has {} nodes and {} edges, took {}ms to create",
     graph.node_count(),
     graph.edge_count(),
-    now.elapsed().as_millis()
+    cg_generation_duration.as_millis()
   );
 
   let node_index_to_position = generate_node_index_to_position_map(&graph);
@@ -204,9 +205,14 @@ pub fn find_distinct_paths(planning_setting: PlanningSetting, mut visualizer: Op
     &start,
     &goal,
     planning_setting.num_paths,
+    Some(
+      std::time::Duration::from_secs(planning_setting.max_duration_s as u64)
+        - cg_generation_duration,
+    ),
+    // None,
     |nag| {
       if let Some(visualizer) = &mut visualizer {
-        // visualizer.visualize_arm_nag(nag.clone(), graph.clone());
+        visualizer.visualize_arm_nag(nag.clone(), graph.clone());
       }
     },
     1000,

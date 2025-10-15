@@ -109,7 +109,9 @@ int main(int argc, char** argv)
             return collision_object;
           }();
       // Add the collision object to the scene
+      RCLCPP_INFO(LOGGER, "Before calling applyCollisionObject");
       planning_scene_interface.applyCollisionObject(collision_object);
+      RCLCPP_INFO(LOGGER, "After calling applyCollisionObject");
     }
   }
 
@@ -235,18 +237,16 @@ int main(int argc, char** argv)
     moveit_visual_tools.deleteAllMarkers();
     moveit_visual_tools.trigger();
   };
-
+  int max_duration_s = node->get_parameter("max_duration_s").as_int();
   std::ofstream planning_time_file("planning_times.txt");
 
   int trajectory_count = 0;
-  // auto start_time = std::chrono::system_clock::now();
-  // while (rclcpp::ok() &&
-  //        std::chrono::system_clock::now() - start_time < TIME_LIMIT) {
+  unsigned int total_planning_time_ms = 0;
   while (rclcpp::ok()) {
     moveit_visual_tools.loadRemoteControl();
-    moveit_visual_tools.prompt(
-        "Press 'next' in the RvizVisualToolsGui window to "
-        "continue to the linear constraint example");
+    // moveit_visual_tools.prompt(
+    //     "Press 'next' in the RvizVisualToolsGui window to "
+    //     "continue to the linear constraint example");
     reset_demo();
 
     // Create some helpful lambdas
@@ -323,11 +323,11 @@ int main(int argc, char** argv)
     // move_group_interface.setJointValueTarget(end_state);
     move_group_interface.setPoseTarget(target_pose);
 
-    move_group_interface.setPlanningTime(300.0);
+    move_group_interface.setPlanningTime(5.0);
     move_group_interface.setGoalPositionTolerance(0.01);
     // move_group_interface.setNumPlanningAttempts(5);
-    // move_group_interface.setPlannerId("KPIECEkConfigDefault");
-    move_group_interface.setPlannerId("RRTConnectkConfigDefault");
+    move_group_interface.setPlannerId("KPIECEkConfigDefault");
+    // move_group_interface.setPlannerId("RRTConnectkConfigDefault");
 
     auto start_time = std::chrono::system_clock::now();
     moveit::planning_interface::MoveGroupInterface::Plan plan;
@@ -335,16 +335,19 @@ int main(int argc, char** argv)
                     moveit::core::MoveItErrorCode::SUCCESS);
     RCLCPP_INFO(LOGGER, "Plan with line constraint %s",
                 success ? "SUCCEEDED" : "FAILED");
-    planning_time_file
-        << std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(
-                              std::chrono::system_clock::now() - start_time)
-                              .count())
-        << "\n";
-    RCLCPP_INFO(LOGGER, "Took %dms",
-                std::chrono::duration_cast<std::chrono::milliseconds>(
-                    std::chrono::system_clock::now() - start_time)
-                    .count());
+    auto time_elapsed_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now() - start_time)
+            .count();
+    planning_time_file << std::to_string(time_elapsed_ms) << "\n";
+    RCLCPP_INFO(LOGGER, "Took %dms", time_elapsed_ms);
     planning_time_file.flush();
+    total_planning_time_ms += time_elapsed_ms;
+    if (total_planning_time_ms > max_duration_s * 1000) {
+      RCLCPP_INFO(LOGGER, "Total planning time exceeded %d seconds, exiting.",
+                  max_duration_s);
+      break;
+    }
 
     if (success) {
       std::ofstream trajectory_file("trajectory" +
@@ -386,7 +389,10 @@ int main(int argc, char** argv)
   moveit_visual_tools.trigger();
   move_group_interface.clearPathConstraints();
 
+  RCLCPP_INFO(LOGGER, "Shutting down...");
   rclcpp::shutdown();
+  RCLCPP_INFO(LOGGER, "Joining...");
   spinner.join();
+  RCLCPP_INFO(LOGGER, "Bye.");
   return 0;
 }

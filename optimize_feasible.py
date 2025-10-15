@@ -51,8 +51,7 @@ CAPTURE_VIZ = False
 # CAPTURE_VIZ = True
 VIZ_FREQ = 10
 
-if CAPTURE_VIZ:
-    from take_meshcat_screenshot import take_screenshot
+from take_meshcat_screenshot import take_screenshot
 
 
 def exponentially_smoothed_hinge_loss_function(x):
@@ -441,9 +440,9 @@ def optimize(
     # initial and final positions
     for i in range(x_b.shape[1]):
         prog.AddConstraint(x_b[0, i] == planning_setting.initial_x_b[i])
-        # prog.AddConstraint(theta[0, 0] == planning_setting.initial_theta)
+        prog.AddConstraint(theta[0, 0] == planning_setting.initial_theta)
         prog.AddConstraint(x_b[-1, i] == planning_setting.final_x_b[i])
-        # prog.AddConstraint(theta[-1, 0] == planning_setting.final_theta)
+        prog.AddConstraint(theta[-1, 0] == planning_setting.final_theta)
 
     # Set initial guess
     if x_b_guess is not None:
@@ -479,8 +478,9 @@ def optimize(
     start_time = time.time()
     print(f"Beginning to solve...")
     result = Solve(prog)
+    solve_time = time.time() - start_time
     print("Solver: ", result.get_solver_id().name())
-    print(f"Solve time: {time.time() - start_time}s")
+    print(f"Solve time: {solve_time}s")
     print("Success? ", result.is_success())
     print(f"Cost: {result.get_optimal_cost()}")
     x_w_star = result.GetSolution(x_w)
@@ -490,7 +490,7 @@ def optimize(
     # print('x_w* = ', x_w_star)
     # print('x_b* = ', x_b_star)
 
-    return x_w_star, x_b_star, theta_star
+    return x_w_star, x_b_star, theta_star, (result, solve_time)
 
 
 def calc_a(x_w, x_b, x_e):
@@ -618,6 +618,42 @@ def read_guess_from_file(filename):
         )
 
 
+def output_to_file(filename, x_w_star, x_b_star, theta_star):
+    x_b_star_aug = aug_x_b(x_b_star)
+    with open(filename, "w") as output_file:
+        for k in range(N):
+            output = json.dumps(
+                np.hstack(
+                    [x_w_star[k], x_e[k], x_b_star_aug[k], [theta_star[k]]]
+                ).tolist()
+            )
+            output_file.write(f"{output}\n")
+    print(f"Output written to {filename}")
+
+
+def aug_x_b(x_b):
+    return np.concatenate(
+        [x_b, np.ones((x_b.shape[0], 1)) * planning_setting.arm_base_height],
+        axis=1,
+    )
+
+
+def save_image(filename, x_w_star, x_b_star, theta_star):
+    meshcat = StartMeshcat()
+    planning_setting.show_obstacles(meshcat)
+    x_b_star_aug = aug_x_b(x_b_star)
+    for k in range(N):
+        show_pose(
+            meshcat,
+            x_b_star_aug[k],
+            x_w_star[k],
+            x_e[k],
+            theta_star[k],
+            is_persist=True,
+        )
+    take_screenshot(meshcat.web_url(), filename)
+
+
 if __name__ == "__main__":
     import argparse
 
@@ -684,7 +720,7 @@ if __name__ == "__main__":
 
     # planning_setting.connect_pybullet()
 
-    x_w_star, x_b_star, theta_star = optimize(
+    x_w_star, x_b_star, theta_star, _ = optimize(
         x_w_guess=x_w_guess,
         x_b_guess=x_b_guess,
         a_guess=a_guess,
@@ -697,26 +733,15 @@ if __name__ == "__main__":
 
     # planning_setting.disconnect_pybullet()
 
-    x_b_star_aug = np.concatenate(
-        [x_b_star, np.ones((x_b_star.shape[0], 1)) * planning_setting.arm_base_height],
-        axis=1,
-    )
-
-    output_file = None
     if args.output:
-        output_file = open(args.output, "w")
+        output_to_file(args.output, x_w_star, x_b_star, theta_star)
+
+    x_b_star_aug = aug_x_b(x_b_star)
 
     meshcat.Delete()
     planning_setting.show_obstacles(meshcat)
     for k in range(N):
         # print(f"x_b: {x_b_star_aug[k]}, x_w: {x_w_star[k]}, x_e: {x_e[k]}")
-        if output_file is not None:
-            output = json.dumps(
-                np.hstack(
-                    [x_w_star[k], x_e[k], x_b_star_aug[k], [theta_star[k]]]
-                ).tolist()
-            )
-            output_file.write(f"{output}\n")
         if not LOOP_PLAYBACK:
             show_pose(
                 meshcat,

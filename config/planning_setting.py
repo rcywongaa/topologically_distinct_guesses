@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 import math
 from math import pi
@@ -26,23 +27,46 @@ p.resetSimulation()
 
 max_distance = 100
 
-planning_problem = 2
+"""
+Doesn't work since rust directly invokes this file without command line arguments
+"""
+# parser = argparse.ArgumentParser(description="Planning settings")
+# parser.add_argument(
+#     "--planning_problem",
+#     type=int,
+#     default=1,
+#     help="Planning problem to use (1: simple scene, 2: bar table scene, 3: randomized simple scene)",
+# )
+# planning_problem = parser.parse_args().planning_problem
+
+planning_problem = 3
+
 if planning_problem == 1:
     scene_name = "simple_scene"
     wavy = False
 elif planning_problem == 2:
     scene_name = "bar_table_scene"
     wavy = True
+elif planning_problem == 3:
+    scene_name = "load_randomized_scene"
+    wavy = False
 else:
     raise ValueError(f"Unknown planning problem {planning_problem}")
 
+print("Using planning scene:", scene_name)
+
 try:
     from . import calc_elbow_position
-    scene = importlib.import_module("." + scene_name, "config")
 except ImportError:  # Allow running as script
     import calc_elbow_position
+
+try:
+    scene = importlib.import_module("." + scene_name, "config")
+except ImportError:  # Allow running as script
     scene = importlib.import_module(scene_name)
 
+if planning_problem == 3:
+    scene = scene.scene
 
 # Disable SIGINT handler so that rust can receive it
 # This doesn't affect running this in python
@@ -286,6 +310,7 @@ final_x_e = get_eef_position(1.0)
 final_x_w = calc_elbow_position.calc_elbow_position_6dof(
     upperarm_length, forearm_length, final_x_b, final_x_e, True
 )
+max_duration_s = scene.max_duration_s
 num_paths = scene.num_paths
 T = scene.T
 dt = scene.dt
@@ -319,6 +344,12 @@ def calc_pose(x_b, x_w, x_e):
     shoulder_roll = get_signed_angle(perp_dx_e_0, perp_dx_e, dx_w_dir)
     return (base_x, base_y, shoulder_lift, shoulder_pan, shoulder_roll, elbow_flex)
 
+
+def tolist(x):
+    if isinstance(x, np.ndarray):
+        return x.tolist()
+    else:
+        return x
 
 def to_rosparam_yaml():
     import yaml
@@ -418,15 +449,16 @@ def to_rosparam_yaml():
         "eef_end": eef_end,
         "forearm_length": forearm_length,
         "upperarm_length": upperarm_length,
-        "initial_x_b": initial_x_b.tolist(),
+        "initial_x_b": tolist(initial_x_b),
         "initial_theta": initial_theta,
-        "initial_x_e": initial_x_e.tolist(),
-        "initial_x_w": initial_x_w.tolist(),
-        "final_x_b": final_x_b.tolist(),
+        "initial_x_e": tolist(initial_x_e),
+        "initial_x_w": tolist(initial_x_w),
+        "final_x_b": tolist(final_x_b),
         "final_theta": final_theta,
-        "final_x_e": final_x_e.tolist(),
-        "final_x_w": final_x_w.tolist(),
+        "final_x_e": tolist(final_x_e),
+        "final_x_w": tolist(final_x_w),
         "num_paths": num_paths,
+        "max_duration_s": max_duration_s,
         "initial_positions": initial_positions,
         "final_positions": final_positions,
     }

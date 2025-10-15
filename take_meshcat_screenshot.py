@@ -1,6 +1,8 @@
 from playwright.sync_api import sync_playwright
 
-
+"""
+Required until https://github.com/RobotLocomotion/drake/issues/18912 is resolved.
+"""
 def take_screenshot(url, filename):
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch()

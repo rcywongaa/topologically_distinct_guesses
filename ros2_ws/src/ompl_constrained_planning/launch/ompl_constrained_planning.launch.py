@@ -1,9 +1,12 @@
 import os
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import ExecuteProcess
+from launch.actions import ExecuteProcess, Shutdown
 from ament_index_python.packages import get_package_share_directory
 from moveit_configs_utils import MoveItConfigsBuilder
+from launch.actions import RegisterEventHandler
+from launch.events.process import ProcessStarted
+from launch.event_handlers.on_process_start import OnProcessStart
 
 
 def generate_launch_description():
@@ -60,6 +63,7 @@ def generate_launch_description():
             moveit_config.robot_description_kinematics,
             planning_setting,
         ],
+        on_exit=Shutdown(),
     )
 
     # RViz
@@ -115,27 +119,44 @@ def generate_launch_description():
     )
 
     # Load controllers
-    load_controllers = []
-    for controller in [
-        "mobile_manipulator_controller",
-        "joint_state_broadcaster",
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner {}".format(controller)],
-                shell=True,
-                output="screen",
-            )
-        ]
+    # load_controllers = []
+    # for controller in [
+    #     "mobile_manipulator_controller",
+    #     "joint_state_broadcaster",
+    # ]:
+    #     load_controllers += [
+    #         ExecuteProcess(
+    #             cmd=["ros2 run controller_manager spawner {}".format(controller)],
+    #             shell=True,
+    #             output="screen",
+    #         )
+    #     ]
+
+    spawn_mobile_manipulator_controller = ExecuteProcess(
+        cmd=["ros2 run controller_manager spawner mobile_manipulator_controller"],
+        shell=True,
+        output="screen",
+    )
+    spawn_joint_state_broadcaster = ExecuteProcess(
+        cmd=["ros2 run controller_manager spawner joint_state_broadcaster"],
+        shell=True,
+        output="screen",
+    )
 
     return LaunchDescription(
         [
             static_tf,
             robot_state_publisher,
-            rviz_node,
+            # rviz_node,
             run_move_group_node,
-            demo_node,
             ros2_control_node,
+            spawn_mobile_manipulator_controller,
+            spawn_joint_state_broadcaster,
+            RegisterEventHandler(
+                event_handler=OnProcessStart(
+                    target_action=run_move_group_node,
+                    on_start=demo_node,
+                )
+            ),
         ]
-        + load_controllers
     )

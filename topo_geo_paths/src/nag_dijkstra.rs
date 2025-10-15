@@ -310,7 +310,7 @@ fn find_equivalent_nodes(
   physical_mapping: &PhysicalNagMap,
   node: &NagNode,
 ) -> Vec<NagIndex> {
-  let now = Instant::now();
+  let last_viz_time = Instant::now();
   if let Some(coincidental_nodes) = physical_mapping.get(&node.physical_index) {
     unsafe {
       find_equivalent_nodes_callcount += 1;
@@ -331,7 +331,7 @@ fn find_equivalent_nodes(
       .cloned()
       .collect();
     unsafe {
-      find_equivalent_nodes_total_duration += now.elapsed();
+      find_equivalent_nodes_total_duration += last_viz_time.elapsed();
     }
     return ret;
   } else {
@@ -546,11 +546,14 @@ pub fn nag_dijkstra(
   start: &HashSet<PhysicalIndex>,
   goal: &HashSet<PhysicalIndex>,
   num_paths: usize,
+  max_duration: Option<Duration>,
   mut visualize: impl FnMut(&Nag),
   vis_freq: usize,
 ) -> (Nag, Vec<NagIndex>) {
   info!("Start: {:?}", start);
   info!("Goal: {:?}", goal);
+  info!("Number of paths: {}", num_paths);
+  info!("Max duration: {:?}", max_duration);
 
   let start_time = Instant::now();
   let mut nag = Nag::with_capacity(graph.node_count() * (num_paths + 1));
@@ -579,6 +582,12 @@ pub fn nag_dijkstra(
 
   let mut now = Instant::now();
   while let Some(tentative_node) = visit_next.pop() {
+    if let Some(max_duration) = max_duration {
+      if start_time.elapsed() > max_duration {
+        info!("Max duration reached, stopping search.");
+        break;
+      }
+    }
     debug!("Visiting {:?}", tentative_node);
     nodes_visited += 1;
     /* Skip if equivalent */
@@ -620,12 +629,12 @@ pub fn nag_dijkstra(
           (max_phy, max_nag_list)
         })
         .unwrap();
-      info!(
-        "PHY({}) has {} distinct nodes: {:?}",
-        max_phy.index(),
-        max_nag_list.len(),
-        max_nag_list
-      );
+      // info!(
+      //   "PHY({}) has {} distinct nodes: {:?}",
+      //   max_phy.index(),
+      //   max_nag_list.len(),
+      //   max_nag_list
+      // );
       // for (phy, nag_list) in &visited_physical_mapping {
       //   if nag_list.len() > 1 {
       //     info!("{:?} has nag nodes: {:?}", phy, nag_list);
@@ -647,22 +656,22 @@ pub fn nag_dijkstra(
         // );
         get_path_neighborhood_call_count = 0;
         get_path_neighborhood_total_duration = Duration::new(0, 0);
-        println!(
-          "# find_equivalent_nodes calls: (total) {}, (per) {}",
-          find_equivalent_nodes_callcount,
-          find_equivalent_nodes_callcount as f32 / vis_freq as f32
-        );
+        // println!(
+        //   "# find_equivalent_nodes calls: (total) {}, (per) {}",
+        //   find_equivalent_nodes_callcount,
+        //   find_equivalent_nodes_callcount as f32 / vis_freq as f32
+        // );
         // println!(
         //   "Average num coincidental_nodes = {}",
         //   total_num_coincidental_nodes as f32
         //     / find_equivalent_nodes_callcount as f32
         // );
-        println!(
-          "find_equivalent_nodes duration: (total) {}ms, (per) {}ms",
-          find_equivalent_nodes_total_duration.as_millis(),
-          find_equivalent_nodes_total_duration.as_millis() as f32
-            / find_equivalent_nodes_callcount as f32
-        );
+        // println!(
+        //   "find_equivalent_nodes duration: (total) {}ms, (per) {}ms",
+        //   find_equivalent_nodes_total_duration.as_millis(),
+        //   find_equivalent_nodes_total_duration.as_millis() as f32
+        //     / find_equivalent_nodes_callcount as f32
+        // );
         total_num_coincidental_nodes = 0;
         find_equivalent_nodes_callcount = 0;
         find_equivalent_nodes_total_duration = Duration::new(0, 0);

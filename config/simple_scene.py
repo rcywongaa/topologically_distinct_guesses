@@ -23,6 +23,7 @@ initial_x_b = np.array([-1.0, 0.1, 0.0])
 initial_theta = -0.5 * pi
 final_x_b = np.array([1.0, 0.1, 0.0])
 final_theta = 0.5 * pi
+max_duration_s = 1000
 
 num_paths = 4
 
