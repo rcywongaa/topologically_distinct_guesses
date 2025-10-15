@@ -1,3 +1,44 @@
+## Notes
+### Randomized experiments
+In the current implementation, `find_distinct_paths.rs` manually calls `planning_setting.py` to load values.
+
+How do we ensure that the randomly generated values stay the same between NAGS and OMPL runs?
+Separate the randomization from the `planning_setting.py` call.
+
+### MoveIt2
+The moveit binaries have an issue where planning reports success even though the trajectory doesn't actually reach the goal.
+This PR is needed: https://github.com/moveit/moveit2/pull/2455
+which requires building from source.
+
+Whenever editing `config/planning_setting.py`, remember to run `python3 planning_setting.py` within the `config/` directory.
+The MoveIt experiments rely on some auto-generated files sym-linked to the `config/` directory.
+
+### Sharing `planning_setting.py`
+`ros2-rust` did not support params at the time this project started...
+Also, params/yaml does not allow passing eef path which is a python function.
+
+How to get planning_setting.py stuff into ompl planning
+- initial position (in joint angles)
+- final position (in joint angles)
+- eef path
+- obstacles
+
+c++ & pybind11
+- can express eef path
+- dealing with file paths is icky
+- symlinks/hardlinks are finicky
+
+python + param
+- no support for nested types
+- might need to use this eventually when moving to ROS
+
+How to get `planning_setting.py` stuff into NAGS
+- Remember that `planning_setting.rs` makes a copy of `planning_setting.py` to execute.
+  Hence all relative paths from `planning_setting.py` is lost
+- In order to preserve relative paths, we should use modules within `config/`.
+- Modules are imported by `planning_setting.py` and hence `planning_setting.rs` with the correct directory, at `config/`.
+
+### Collision Handling
 ```
 """
 Trick from Equation 6
