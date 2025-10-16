@@ -36,13 +36,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: trajectory1
-          path: trajectory1.txt
+          path: topo_geo_paths/trajectory1.txt
 
       - name: Upload trajectory2
         uses: actions/upload-artifact@v4
         with:
           name: trajectory2
-          path: trajectory2.txt
+          path: topo_geo_paths/trajectory2.txt
 
       - name: Optimize trajectory0
         run: python3 optimize_feasible.py --filename topo_geo_paths/trajectory0.txt --output trajectory0_opt.txt 2>/dev/null
