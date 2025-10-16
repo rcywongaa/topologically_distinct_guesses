@@ -17,6 +17,7 @@ table_depth = 0.2
 table_overhang = 0.00
 table_leg_length = table_height - table_thickness
 table_leg_depth = table_depth / 2
+max_duration_s = 300
 
 sphere_obstacle_specs = []
 

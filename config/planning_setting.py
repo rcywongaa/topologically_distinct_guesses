@@ -39,7 +39,7 @@ Doesn't work since rust directly invokes this file without command line argument
 # )
 # planning_problem = parser.parse_args().planning_problem
 
-planning_problem = 3
+planning_problem = 2
 
 if planning_problem == 1:
     scene_name = "simple_scene"
