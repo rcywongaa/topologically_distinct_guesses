@@ -246,8 +246,8 @@ def show_pose(meshcat, x_b, x_w, x_e, theta, is_persist=False):
     )
 
 
-def visualization_callback(meshcat, prog, x, x_b_var, x_w_var, theta_var):
-    if visualization_callback.count % VIZ_FREQ != 0:
+def visualization_callback(meshcat, prog, x, x_b_var, x_w_var, theta_var, freq):
+    if visualization_callback.count % freq != 0:
         print(f"Num iterations: {visualization_callback.count}, skipping...")
     else:
         print(f"Num iterations: {visualization_callback.count}, visualizing...")
@@ -472,7 +472,9 @@ def optimize(
     prog.SetSolverOptions(options)
     if viz_freq is not None:
         prog.AddVisualizationCallback(
-            lambda x: visualization_callback(meshcat, prog, x, x_b, x_w, theta),
+            lambda x: visualization_callback(
+                meshcat, prog, x, x_b, x_w, theta, viz_freq
+            ),
             prog.decision_variables(),
         )
     start_time = time.time()
@@ -667,6 +669,9 @@ if __name__ == "__main__":
         required=False,
     )
     parser.add_argument("--output", help="Output filename", type=str, required=False)
+    parser.add_argument(
+        "--viz_freq", help="Visualization frequency", type=int, default=None
+    )
     args = parser.parse_args()
 
     meshcat = StartMeshcat()
@@ -728,7 +733,7 @@ if __name__ == "__main__":
         v_guess=v_guess,
         w_guess=w_guess,
         delta_x_w_guess=delta_x_w_guess,
-        viz_freq=VIZ_FREQ,
+        viz_freq=args.viz_freq,
     )
 
     # planning_setting.disconnect_pybullet()
