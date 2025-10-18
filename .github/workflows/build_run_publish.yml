@@ -143,6 +143,9 @@ jobs:
           name: trajectory2_opt.html
           path: pages
 
+      - name: Copy index.html to pages
+        run: cp index.html pages
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
