@@ -26,7 +26,7 @@ jobs:
         working-directory: ./topo_geo_paths
         run: cargo run -r
 
-      - name: Upload trajectory0.txt
+      - name: Upload trajectory0
         uses: actions/upload-artifact@v4
         with:
           name: trajectory0.txt
@@ -35,13 +35,13 @@ jobs:
       - name: Upload trajectory1
         uses: actions/upload-artifact@v4
         with:
-          name: trajectory1
+          name: trajectory1.txt
           path: topo_geo_paths/trajectory1.txt
 
       - name: Upload trajectory2
         uses: actions/upload-artifact@v4
         with:
-          name: trajectory2
+          name: trajectory2.txt
           path: topo_geo_paths/trajectory2.txt
 
       - name: Optimize trajectory0
