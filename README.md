@@ -1,8 +1,8 @@
-# Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning with Path Constraints
+# Generating and Optimizing Topologically Distinct Guesses for Mobile Manipulator Path Planning with Path Constraints ([arxiv](https://arxiv.org/abs/2410.20635))
 ![sequential workflow](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish_combined.yml/badge.svg)
 ![parallel workflow](https://github.com/rcywongaa/topologically_distinct_guesses/actions/workflows/build_run_publish.yml/badge.svg)
 
- Go to the [Project Page](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths.
+ Go [here](https://rcywongaa.github.io/topologically_distinct_guesses/) for interactive visualization of the paths.
  Alternatively, use the following links
 <!-- ## Results -->
 <!-- Using anonymous.4open.science links here seems to mess up the README -->
